@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harper/Pages/dashboardscreen.dart';
 import 'package:harper/logger.dart';
 
 import 'Pages/loginscreen.dart';
@@ -22,7 +23,8 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text(EnvLoader().getName() ?? ''),
         ),
-        body: LoginScreen(),
+        // body: LoginScreen(),
+        body: const DashboardScreen(),
       ),
     );
   }
