@@ -1,0 +1,6 @@
+.env
+ui/windows/
+ui/linux/
+ui/macos/
+ui/android
+ui/build/
