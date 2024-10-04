@@ -1,0 +1,41 @@
+{
+  "Project_A": {
+    "lastscaorgin": "Org_1",
+    "lastsourcetype": "Source_Type_1",
+    "lastscan": "2024-10-01",
+    "tags": ["tag1", "tag2"],
+    "groups": ["group1", "group2"],
+    "level": "High",
+    "risklevel": {
+      "High risk": ["Issue 1", "Issue 2"],
+      "Medium risk": ["Issue 3"],
+      "Low risk": ["Issue 4", "Issue 5"]
+    }
+  },
+  "Project_B": {
+    "lastscaorgin": "Org_2",
+    "lastsourcetype": "Source_Type_2",
+    "lastscan": "2024-10-02",
+    "tags": ["tag3", "tag4"],
+    "groups": ["group3"],
+    "level": "High",
+    "risklevel": {
+      "High risk": ["Issue 6"],
+      "Medium risk": ["Issue 7", "Issue 8"],
+      "Low risk": ["Issue 9"]
+    }
+  },
+  "Project_C": {
+    "lastscaorgin": "Org_3",
+    "lastsourcetype": "Source_Type_3",
+    "lastscan": "2024-10-03",
+    "tags": ["tag5"],
+    "groups": ["group4", "group5"],
+    "level": "High",
+    "risklevel": {
+      "High risk": [],
+      "Medium risk": ["Issue 10"],
+      "Low risk": ["Issue 11", "Issue 12", "Issue 13"]
+    }
+  }
+}

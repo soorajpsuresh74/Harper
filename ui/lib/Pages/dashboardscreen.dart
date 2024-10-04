@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
 import '../Widget/Dashboard/sidebar.dart';
+import '../Widget/Dashboard/card_widget.dart'; // Import the CardWidget
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -25,11 +26,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         children: [
           Sidebar(controller: _controller),
           const Expanded(
-            child: Center(
-              child: Text(
-                'Welcome to the Dashboard!',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 20),
+                CardWidget(),
+              ],
             ),
           ),
         ],
