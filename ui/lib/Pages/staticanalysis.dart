@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harper/Widget/createproject.dart';
+import 'package:harper/Widget/Createproject/createproject.dart';
 
 class StaticAnalysisPage extends StatelessWidget {
   const StaticAnalysisPage({super.key});
@@ -16,19 +16,17 @@ class StaticAnalysisPage extends StatelessWidget {
             showDialog(
               context: context,
               builder: (BuildContext context) {
-                // Use MediaQuery to get the width and height of the screen
                 final screenWidth = MediaQuery.of(context).size.width;
                 final screenHeight = MediaQuery.of(context).size.height;
 
                 return AlertDialog(
                   title: const Text('Create New...'),
                   content: Container(
-                    // Use MediaQuery for a responsive design
                     constraints: BoxConstraints(
                       minWidth: screenWidth * 0.8,
                       minHeight: screenHeight * 0.7,
                     ),
-                    child: const CreateProjectWidget(), // Call your CreateProjectWidget here
+                    child: const CreateProjectWidget(),
                   ),
                   actions: [
                     TextButton(

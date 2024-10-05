@@ -3,6 +3,7 @@ import 'package:harper/Pages/dashboardscreen.dart';
 import 'package:harper/logger.dart';
 
 import 'Pages/loginscreen.dart';
+import 'Pages/staticanalysis.dart';
 import 'config.dart';
 
 void main() async {
@@ -24,7 +25,8 @@ class MyApp extends StatelessWidget {
           title: Text(EnvLoader().getName() ?? ''),
         ),
         // body: LoginScreen(),
-        body: const DashboardScreen(),
+        // body: const DashboardScreen(),
+        body: StaticAnalysisPage(),
       ),
     );
   }
