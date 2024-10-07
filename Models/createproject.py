@@ -4,10 +4,10 @@ from typing import List, Optional
 
 class CreateProjectModel(BaseModel):
     project_name: str
-    local_path: str
-    source_path: str
-    excluded_folder: str
-    excluded_file: str
+    local_path: Optional[str]
+    source_path: Optional[str]
+    excluded_folder: Optional[str]
+    excluded_file: Optional[str]
     schedule: Optional[str]
     schedule_date: Optional[str]
     schedule_time: Optional[str]
