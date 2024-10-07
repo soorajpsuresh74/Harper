@@ -7,3 +7,4 @@ ui/build/
 ui/ios/
 .venv
 venv
+ui/web
