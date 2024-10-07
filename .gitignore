@@ -5,4 +5,4 @@ ui/macos/
 ui/android
 ui/build/
 ui/ios/
-venv
+.venv
