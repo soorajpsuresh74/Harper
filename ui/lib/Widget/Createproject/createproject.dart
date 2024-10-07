@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 
+import 'package:harper/Models/Sast/Createproject.dart';
+import 'package:harper/Services/Sast/createproject.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -20,21 +23,35 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class ProjectDetailsPage extends StatelessWidget {
-  const ProjectDetailsPage({super.key});
+class MultiSelectChip extends StatefulWidget {
+  final List<String> options;
+  final ValueChanged<List<String>> onSelectionChanged;
+
+  const MultiSelectChip({super.key, required this.options, required this.onSelectionChanged});
+
+  @override
+  _MultiSelectChipState createState() => _MultiSelectChipState();
+}
+
+class _MultiSelectChipState extends State<MultiSelectChip> {
+  List<String> selectedChoices = [];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Project Details'),
-      ),
-      body: const Center(
-        child: Text(
-          'This is the Project Details page!',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
+    return Wrap(
+      spacing: 8.0,
+      children: widget.options.map((item) {
+        return ChoiceChip(
+          label: Text(item),
+          selected: selectedChoices.contains(item),
+          onSelected: (selected) {
+            setState(() {
+              selected ? selectedChoices.add(item) : selectedChoices.remove(item);
+              widget.onSelectionChanged(selectedChoices);
+            });
+          },
+        );
+      }).toList(),
     );
   }
 }
@@ -47,17 +64,11 @@ class CreateProjectWidget extends StatefulWidget {
   _CreateProjectWidgetState createState() => _CreateProjectWidgetState();
 }
 
-class _CreateProjectWidgetState extends State<CreateProjectWidget>
-    with SingleTickerProviderStateMixin {
+class _CreateProjectWidgetState extends State<CreateProjectWidget> with SingleTickerProviderStateMixin {
   late TabController _tabController;
 
   String _selectedPreset = 'Preset 1'; // Default value
-  final List<String> _presets = [
-    'Preset 1',
-    'Preset 2',
-    'Preset 3',
-    'Preset 4'
-  ];
+  final List<String> _presets = ['Preset 1', 'Preset 2', 'Preset 3', 'Preset 4'];
 
   String _selectedConfig = 'Config 1'; // Default value
   final List<String> _config = ['Config 1', 'Config 2', 'Config 3'];
@@ -66,11 +77,26 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget>
   final List<String> _teams = ['Team 1', 'Team 2', 'Team 3'];
 
   String? _localPath;
+  String? _sourcePath;
+  String? _excludedFolders;
+  String? _excludedFiles;
 
   String _selectedSchedule = 'now'; // Default value for scheduling
   String? _scheduleDate;
   String? _scheduleTime;
-  List<String> _selectedDays = []; // Changed to List to allow multiple selections
+  List<String> _selectedDays = [];
+
+  String? _preScanMail;
+  String? _postScanMail;
+  String? _failureScanMail;
+
+  final TextEditingController projectNameController = TextEditingController();
+  final TextEditingController sourcePathController = TextEditingController();
+  final TextEditingController excludedFoldersController = TextEditingController();
+  final TextEditingController excludedFilesController = TextEditingController();
+  final TextEditingController preScanMailController = TextEditingController();
+  final TextEditingController postScanMailController = TextEditingController();
+  final TextEditingController failureScanMailController = TextEditingController();
 
   @override
   void initState() {
@@ -80,6 +106,13 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget>
 
   @override
   void dispose() {
+    projectNameController.dispose();
+    sourcePathController.dispose();
+    excludedFoldersController.dispose();
+    excludedFilesController.dispose();
+    preScanMailController.dispose();
+    postScanMailController.dispose();
+    failureScanMailController.dispose();
     _tabController.dispose();
     super.dispose();
   }
@@ -141,8 +174,9 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget>
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 20),
-        const TextField(
-          decoration: InputDecoration(
+        TextField(
+          controller: projectNameController,
+          decoration: const InputDecoration(
             labelText: 'Project Name',
             border: OutlineInputBorder(),
           ),
@@ -244,24 +278,26 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget>
         ),
         const SizedBox(height: 20),
         TextField(
+          controller: sourcePathController,
           decoration: const InputDecoration(
             labelText: 'Source Path (VCS Link)',
             hintText: 'Enter Git/SVN repository URL',
             border: OutlineInputBorder(),
           ),
           keyboardType: TextInputType.url,
-          onChanged: (String value) {},
         ),
         const SizedBox(height: 20),
-        const TextField(
-          decoration: InputDecoration(
+        TextField(
+          controller: excludedFoldersController,
+          decoration: const InputDecoration(
             labelText: 'Excluded Folders',
             border: OutlineInputBorder(),
           ),
         ),
         const SizedBox(height: 20),
-        const TextField(
-          decoration: InputDecoration(
+        TextField(
+          controller: excludedFilesController,
+          decoration: const InputDecoration(
             labelText: 'Excluded Files',
             border: OutlineInputBorder(),
           ),
@@ -282,68 +318,77 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget>
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         const Text(
-          'Scheduling Options',
+          'Scheduling Information',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 20),
-        Expanded(
-          child: Column(
-            children: [
-              ListTile(
-                title: const Text('Run Now'),
-                leading: Radio<String>(
-                  value: 'now',
-                  groupValue: _selectedSchedule,
-                  onChanged: (String? value) {
-                    setState(() {
-                      _selectedSchedule = value!;
-                      _selectedDays.clear();
-                    });
-                  },
-                ),
-              ),
-              ListTile(
-                title: const Text('Schedule Later'),
-                leading: Radio<String>(
-                  value: 'later',
-                  groupValue: _selectedSchedule,
-                  onChanged: (String? value) {
-                    setState(() {
-                      _selectedSchedule = value!;
-                    });
-                  },
-                ),
-              ),
-            ],
+        ListTile(
+          title: const Text('Schedule Scan'),
+          trailing: DropdownButton<String>(
+            value: _selectedSchedule,
+            items: <String>['now', 'later'].map((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+            onChanged: (String? newValue) {
+              setState(() {
+                _selectedSchedule = newValue!;
+                if (_selectedSchedule == 'later') {
+                  _scheduleDate = null; // Reset date if now is selected
+                  _scheduleTime = null; // Reset time if now is selected
+                }
+              });
+            },
           ),
         ),
-        const SizedBox(height: 20),
         if (_selectedSchedule == 'later') ...[
-          const TextField(
+          const SizedBox(height: 20),
+          TextField(
+            onTap: () async {
+              DateTime? date = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2101),
+              );
+              setState(() {
+                _scheduleDate = date?.toIso8601String();
+              });
+            },
+            readOnly: true,
             decoration: InputDecoration(
               labelText: 'Schedule Date',
-              border: OutlineInputBorder(),
+              hintText: _scheduleDate ?? 'Select a date',
+              border: const OutlineInputBorder(),
             ),
           ),
           const SizedBox(height: 20),
-          const TextField(
-            decoration: InputDecoration(
+          TextField(
+            controller: TextEditingController(text: _scheduleTime),
+            decoration: const InputDecoration(
               labelText: 'Schedule Time',
+              hintText: 'HH:MM',
               border: OutlineInputBorder(),
             ),
+            keyboardType: TextInputType.datetime,
+            onChanged: (value) {
+              setState(() {
+                _scheduleTime = value;
+              });
+            },
           ),
           const SizedBox(height: 20),
+          MultiSelectChip(
+            options: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            onSelectionChanged: (selectedDays) {
+              setState(() {
+                _selectedDays = selectedDays; // Save selected days
+              });
+            },
+          ),
         ],
-        const Text('Schedule Run On'),
-        const SizedBox(height: 10),
-        MultiSelectChip(
-          options: const ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
-          onSelectionChanged: (selectedList) {
-            setState(() {
-              _selectedDays = selectedList;
-            });
-          },
-        ),
         const SizedBox(height: 20),
         ElevatedButton(
           onPressed: () {
@@ -360,84 +405,72 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget>
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         const Text(
-          'Pre/Post Scan Options',
+          'Pre/Post Scan Information',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 20),
-        const TextField(
-          decoration: InputDecoration(
-            labelText: 'Pre Scan Mail',
+        TextField(
+          controller: preScanMailController,
+          decoration: const InputDecoration(
+            labelText: 'Pre Scan Email',
+            hintText: 'Enter email to notify before scan',
             border: OutlineInputBorder(),
           ),
+          keyboardType: TextInputType.emailAddress,
         ),
         const SizedBox(height: 20),
-        const TextField(
-          decoration: InputDecoration(
-            labelText: 'Post Scan Mail',
+        TextField(
+          controller: postScanMailController,
+          decoration: const InputDecoration(
+            labelText: 'Post Scan Email',
+            hintText: 'Enter email to notify after scan',
             border: OutlineInputBorder(),
           ),
+          keyboardType: TextInputType.emailAddress,
         ),
         const SizedBox(height: 20),
-        const TextField(
-          decoration: InputDecoration(
-            labelText: 'Failure Scan Mail',
+        TextField(
+          controller: failureScanMailController,
+          decoration: const InputDecoration(
+            labelText: 'Failure Scan Email',
+            hintText: 'Enter email to notify on failure',
             border: OutlineInputBorder(),
           ),
+          keyboardType: TextInputType.emailAddress,
         ),
         const SizedBox(height: 20),
         ElevatedButton(
-          onPressed: () {
-            // Handle the final submit action
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const ProjectDetailsPage()),
-            );
-          },
-          child: const Text('Submit'),
+          onPressed: _submitProject, // Submit project on press
+          child: const Text('Submit Project'),
         ),
       ],
     );
   }
-}
 
-// MultiSelectChip widget for selecting multiple days
-class MultiSelectChip extends StatefulWidget {
-  final List<String> options;
-  final Function(List<String>) onSelectionChanged;
-
-  const MultiSelectChip({
-    super.key,
-    required this.options,
-    required this.onSelectionChanged,
-  });
-
-  @override
-  _MultiSelectChipState createState() => _MultiSelectChipState();
-}
-
-class _MultiSelectChipState extends State<MultiSelectChip> {
-  List<String> _selectedOptions = [];
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 8.0,
-      children: widget.options.map((option) {
-        return ChoiceChip(
-          label: Text(option),
-          selected: _selectedOptions.contains(option),
-          onSelected: (selected) {
-            setState(() {
-              if (selected) {
-                _selectedOptions.add(option);
-              } else {
-                _selectedOptions.remove(option);
-              }
-              widget.onSelectionChanged(_selectedOptions);
-            });
-          },
-        );
-      }).toList(),
+  Future<void> _submitProject() async {
+    final project = CreateProjectModel(
+      projectName: projectNameController.text,
+      localPath: _localPath ?? '',
+      sourcePath: sourcePathController.text,
+      excludedFolder: excludedFoldersController.text,
+      excludedFile: excludedFilesController.text,
+      schedule: _selectedSchedule,
+      scheduleDate: _scheduleDate ?? '',
+      scheduleTime: _scheduleTime ?? '',
+      scheduleDays: _selectedDays,
+      preScanMail: preScanMailController.text,
+      postScanMail: postScanMailController.text,
+      failureScanMail: failureScanMailController.text,
+      preset: _selectedPreset,
+      config: _selectedConfig,
+      team: _selectedTeam,
     );
+
+    CreateProjectAPI api = CreateProjectAPI();
+    await api.sendProjectData(project);
+    print('Project Submitted: ${project.toJson()}');
+
+    // Optionally, navigate to a different screen or show a success message
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Project added')));
   }
 }
