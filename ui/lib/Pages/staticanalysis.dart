@@ -74,7 +74,7 @@ class StaticAnalysisPage extends StatelessWidget {
                                 applicationVersion: '1.0',
                                 children: [
                                   const Text(
-                                      'This will allow searching through the project data.'),
+                                      'This will allow searching through the Manager_Projects data.'),
                                 ],
                               );
                             },

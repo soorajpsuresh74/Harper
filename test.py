@@ -1,6 +1,6 @@
 import sqlite3
 
-connection = sqlite3.connect('store/data/create_project.db')  # Use the same path as in your ProjectSaver class
+connection = sqlite3.connect('store/data/create_project.db')
 cursor = connection.cursor()
 
 cursor.execute("SELECT * FROM projects;")

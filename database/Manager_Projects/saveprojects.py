@@ -9,8 +9,8 @@ import config
 class ProjectSaver:
     def __init__(self, json_object):
         self.json_object = json_object
-        base_directory = 'store/data/'
-        db_path = os.path.join(base_directory, 'create_project.db')
+        base_directory = 'database/store/data/'
+        db_path = os.path.join(base_directory, 'saved_projects.db')
 
         # Create the directory if it doesn't exist
         if not os.path.exists(base_directory):
@@ -48,7 +48,7 @@ class ProjectSaver:
             # Generate a unique ID if not provided
             project_id = self.json_object.get('id', str(uuid.uuid4()))
 
-            # Insert the project data into the database
+            # Insert the Manager_Projects data into the database
             self.cursor.execute('''
             INSERT INTO projects (
                 id, preset, config, team, localPath, sourcePath, 
@@ -76,7 +76,7 @@ class ProjectSaver:
             self.connection.commit()
             config.log_info("Project successfully added to the database.")
         except Exception as e:
-            config.log_error(f"Error while inserting project: {e}")
+            config.log_error(f"Error while inserting Manager_Projects: {e}")
 
     def close(self):
         self.connection.close()

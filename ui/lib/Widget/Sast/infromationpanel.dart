@@ -94,7 +94,8 @@ class InformationPanel extends StatelessWidget {
                     size: 30, // Icon size for consistency
                   ),
                   const SizedBox(width: 10),
-                  Expanded( // Wrap the title with Expanded to prevent overflow
+                  Expanded(
+                    // Wrap the title with Expanded to prevent overflow
                     child: Text(
                       title,
                       style: const TextStyle(
