@@ -2,10 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:harper/Models/Sast/savedprojects.dart';
 import 'package:harper/Services/Sast/fetchsaved.dart';
 
-class SavedProjectsWidget extends StatelessWidget {
-  final FetchSavedServiceAPI fetchService = FetchSavedServiceAPI();
+class SavedProjectsWidget extends StatefulWidget {
+  const SavedProjectsWidget({Key? key}) : super(key: key);
 
-  SavedProjectsWidget({super.key});
+  @override
+  _SavedProjectsWidgetState createState() => _SavedProjectsWidgetState();
+}
+
+class _SavedProjectsWidgetState extends State<SavedProjectsWidget> {
+  final FetchSavedServiceAPI fetchService = FetchSavedServiceAPI();
+  late Future<List<FetchSavedProjectModel>> futureProjects;
+
+  @override
+  void initState() {
+    super.initState();
+    futureProjects = fetchService.fetchSavedProjects();
+  }
+
+  void _refreshProjects() {
+    setState(() {
+      futureProjects = fetchService.fetchSavedProjects();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +32,7 @@ class SavedProjectsWidget extends StatelessWidget {
         title: const Text('Saved Projects'),
       ),
       body: FutureBuilder<List<FetchSavedProjectModel>>(
-        future: fetchService.fetchSavedProjects(), // Fetch the saved projects
+        future: futureProjects,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -26,10 +44,7 @@ class SavedProjectsWidget extends StatelessWidget {
                   Text('Error: ${snapshot.error}'),
                   const SizedBox(height: 16),
                   ElevatedButton(
-                    onPressed: () {
-                      // Retry fetching the data
-                      fetchService.fetchSavedProjects();
-                    },
+                    onPressed: _refreshProjects,
                     child: const Text('Retry'),
                   ),
                 ],
@@ -42,29 +57,27 @@ class SavedProjectsWidget extends StatelessWidget {
           // Display data in DataTable
           return SingleChildScrollView(
             scrollDirection: Axis.vertical,
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal, // To allow horizontal scrolling for wide tables
-              child: DataTable(
-                columns: const [
-                  DataColumn(label: Text('Project Name')),
-                  DataColumn(label: Text('Project ID')),
-                  DataColumn(label: Text('Configuration')),
-                  DataColumn(label: Text('Team')),
-                  DataColumn(label: Text('Preset')),
-                  DataColumn(label: Text('Status')),
-                ],
-                rows: snapshot.data!.map((project) {
-                  return DataRow(cells: [
-                    DataCell(Text(project.name ?? 'Unnamed Project')),
-                    DataCell(Text(project.id ?? 'No ID')),
-                    DataCell(Text(project.config ?? 'No Date')),
-                    DataCell(Text(project.team ?? 'Unknown Status')),
-                    DataCell(Text(project.preset ?? 'Unknown Status')),
-                    DataCell(bool(project.status ?? 'Unknown Status') as Widget)
-
-                  ]);
-                }).toList(),
-              ),
+            child: DataTable(
+              columns: const [
+                DataColumn(label: Text('Project Name')),
+                DataColumn(label: Text('Project ID')),
+                DataColumn(label: Text('Configuration')),
+                DataColumn(label: Text('Team')),
+                DataColumn(label: Text('Preset')),
+                DataColumn(label: Text('Status')),
+              ],
+              rows: snapshot.data!.map((project) {
+                return DataRow(cells: [
+                  DataCell(Text(project.name ?? 'Unnamed Project')),
+                  DataCell(Text(project.id ?? 'No ID')),
+                  DataCell(Text(project.config ?? 'No Configuration')),
+                  DataCell(Text(project.team ?? 'Unknown Team')),
+                  DataCell(Text(project.preset ?? 'Unknown Preset')),
+                  DataCell(
+                    Text(project.status == 1 ? 'Active' : 'Inactive'),
+                  ),
+                ]);
+              }).toList(),
             ),
           );
         },

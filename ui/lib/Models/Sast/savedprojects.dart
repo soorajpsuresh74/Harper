@@ -4,7 +4,7 @@ class FetchSavedProjectModel {
   final String preset;
   final String config;
   final String team;
-  final bool status;
+  final String status;
 
   FetchSavedProjectModel({
     required this.id,
