@@ -1,15 +1,20 @@
+import json
 from fastapi import FastAPI
 import uvicorn
 
 import config
 from Models.createproject import CreateProjectModel
+from database.createproject import ProjectSaver
 
 app = FastAPI(debug=config.DEBUG)
 
 
 @app.post('/API/sastproject/create')
 async def sast_create_project(project: CreateProjectModel):
-    print(project.json())
+    data_object = project.dict()
+    connector = ProjectSaver(data_object)
+    connector.add_to_db()
+    connector.close()
     return {"message": "success"}
 
 

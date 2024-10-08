@@ -12,9 +12,9 @@ class CreateProjectModel(BaseModel):
     schedule_date: Optional[str]
     schedule_time: Optional[str]
     schedule_days: Optional[List[str]]
-    pre_scan_mail: EmailStr
-    post_scan_mail: EmailStr
-    failure_scan_mail: EmailStr
+    pre_scan_mail: str
+    post_scan_mail: str
+    failure_scan_mail: str
     preset: Optional[str]
     config: Optional[str]
     team: Optional[str]
