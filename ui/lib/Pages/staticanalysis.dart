@@ -159,8 +159,9 @@ class StaticAnalysisPage extends StatelessWidget {
                     ),
 
                     // Displaying SavedProjectsWidget
-                    Expanded(
-                      child: SavedProjectsWidget(), // Display the saved projects
+                    const Expanded(
+                      child:
+                          SavedProjectsWidget(), // Display the saved projects
                     ),
 
                     const SizedBox(height: 20),

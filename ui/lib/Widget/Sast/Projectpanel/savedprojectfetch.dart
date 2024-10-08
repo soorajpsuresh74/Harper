@@ -3,7 +3,7 @@ import 'package:harper/Models/Sast/savedprojects.dart';
 import 'package:harper/Services/Sast/fetchsaved.dart';
 
 class SavedProjectsWidget extends StatefulWidget {
-  const SavedProjectsWidget({Key? key}) : super(key: key);
+  const SavedProjectsWidget({super.key});
 
   @override
   _SavedProjectsWidgetState createState() => _SavedProjectsWidgetState();
@@ -28,9 +28,6 @@ class _SavedProjectsWidgetState extends State<SavedProjectsWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Saved Projects'),
-      ),
       body: FutureBuilder<List<FetchSavedProjectModel>>(
         future: futureProjects,
         builder: (context, snapshot) {
