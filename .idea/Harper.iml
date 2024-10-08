@@ -5,6 +5,25 @@
       <excludeFolder url="file://$MODULE_DIR$/ui/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/ui/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/ui/build" />
+      <excludeFolder url="file://$MODULE_DIR$/.venv" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/.idea" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/android" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/ios" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/linux" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/linux/flutter/ephemeral/.plugin_symlinks/file_picker/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/linux/flutter/ephemeral/.plugin_symlinks/file_picker/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/linux/flutter/ephemeral/.plugin_symlinks/file_picker/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/linux/flutter/ephemeral/.plugin_symlinks/file_picker/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/linux/flutter/ephemeral/.plugin_symlinks/file_picker/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/linux/flutter/ephemeral/.plugin_symlinks/file_picker/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/macos" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/windows" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/windows/flutter/ephemeral/.plugin_symlinks/file_picker/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/windows/flutter/ephemeral/.plugin_symlinks/file_picker/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/windows/flutter/ephemeral/.plugin_symlinks/file_picker/build" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/windows/flutter/ephemeral/.plugin_symlinks/file_picker/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/windows/flutter/ephemeral/.plugin_symlinks/file_picker/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/windows/flutter/ephemeral/.plugin_symlinks/file_picker/example/build" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

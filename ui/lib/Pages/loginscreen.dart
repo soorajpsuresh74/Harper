@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:harper/Widget/login_widget.dart';
+import 'package:harper/Widget/Logiin/login_widget.dart';
 
 class LoginScreen extends StatelessWidget{
   const LoginScreen({super.key});

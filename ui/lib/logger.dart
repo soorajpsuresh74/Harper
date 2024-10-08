@@ -20,6 +20,9 @@ class Logger {
   void error(String message) {
     _log('ERROR', message);
   }
+  void success(String message){
+    _log('SUCCESS', message);
+  }
 
   void _log(String level, String message) {
     final time = DateTime.now();
