@@ -3,6 +3,7 @@ import 'package:harper/Pages/dashboardscreen.dart';
 import 'package:harper/logger.dart';
 
 import 'Pages/loginscreen.dart';
+import 'Pages/rules.dart';
 import 'Pages/staticanalysis.dart';
 import 'Widget/Sast/Projectpanel/savedprojectfetch.dart';
 import 'config.dart';
@@ -27,8 +28,9 @@ class MyApp extends StatelessWidget {
         ),
         // body: LoginScreen(),
         // body: const DashboardScreen(),
-        body: StaticAnalysisPage(),
+        // body: StaticAnalysisPage(),
         // body: SavedProjectsWidget(),
+        body: const HarperRulesPage(),
       ),
     );
   }
