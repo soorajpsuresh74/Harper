@@ -21,9 +21,10 @@ class ProjectFetcher:
             for row in rows:
                 project = {
                     'id': row[1],
-                    "preset": row[2],
-                    "config": row[3],
-                    "team": row[4],
+                    'name': row[2],
+                    "preset": row[3],
+                    "config": row[4],
+                    "team": row[5],
                 }
                 self.projects.append(project)
             if len(self.projects) != 0:

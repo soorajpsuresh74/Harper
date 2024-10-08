@@ -7,76 +7,74 @@ import config
 
 
 class ProjectSaver:
-    def __init__(self, json_object):
+    def __init__(self, json_object: dict):
         self.json_object = json_object
         base_directory = 'database/store/data/'
         db_path = os.path.join(base_directory, 'saved_projects.db')
 
-        # Create the directory if it doesn't exist
         if not os.path.exists(base_directory):
             os.makedirs(base_directory)
 
-        # Connect to the SQLite database
         self.connection = sqlite3.connect(db_path)
         self.cursor = self.connection.cursor()
         self.create_table()
 
-    def create_table(self):
-        self.cursor.execute('''
-        CREATE TABLE IF NOT EXISTS projects(
+    def create_table(self) -> None:
+        self.cursor.execute('''  
+        CREATE TABLE IF NOT EXISTS projects (
             serial_number INTEGER PRIMARY KEY AUTOINCREMENT,
             id TEXT NOT NULL,
+            name TEXT NOT NULL,
             preset TEXT NOT NULL,
             config TEXT NOT NULL,
             team TEXT NOT NULL,
-            localPath TEXT NOT NULL,
-            sourcePath TEXT NOT NULL,
-            excludedFolder TEXT NOT NULL,
-            excludedFile TEXT NOT NULL,
-            schedule TEXT NOT NULL,
-            scheduleDate DATE NOT NULL,
-            scheduleTime TEXT NOT NULL,
-            scheduleDays TEXT NOT NULL,
-            preScanMail TEXT NOT NULL,
-            postScanMail TEXT NOT NULL,
-            failureScanMail TEXT NOT NULL
+            localPath TEXT,
+            sourcePath TEXT,
+            excludedFolder TEXT,
+            excludedFile TEXT,
+            schedule TEXT,
+            scheduleDate DATE,
+            scheduleTime TEXT,
+            scheduleDays TEXT,
+            preScanMail TEXT,
+            postScanMail TEXT,
+            failureScanMail TEXT
         )''')
         self.connection.commit()
 
-    def add_to_db(self):
+    def add_to_db(self) -> None:
         try:
-            # Generate a unique ID if not provided
-            project_id = self.json_object.get('id', str(uuid.uuid4()))
+            project_id = self.json_object.get('id', str(uuid.uuid4()))  # Ensure project_id is unique
 
-            # Insert the Manager_Projects data into the database
-            self.cursor.execute('''
+            self.cursor.execute('''  
             INSERT INTO projects (
-                id, preset, config, team, localPath, sourcePath, 
-                excludedFolder, excludedFile, schedule, 
-                scheduleDate, scheduleTime, scheduleDays, 
+                id, name, preset, config, team, localPath, sourcePath,
+                excludedFolder, excludedFile, schedule,
+                scheduleDate, scheduleTime, scheduleDays,
                 preScanMail, postScanMail, failureScanMail
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
             ''', (
                 project_id,
-                self.json_object.get('preset'),
-                self.json_object.get('config'),
-                self.json_object.get('team'),
-                self.json_object.get('local_path'),
-                self.json_object.get('source_path'),
-                self.json_object.get('excluded_folder'),
-                self.json_object.get('excluded_file'),
-                self.json_object.get('schedule'),
-                self.json_object.get('schedule_date'),
-                self.json_object.get('schedule_time'),
-                ', '.join(self.json_object.get('schedule_days', [])),  # Join list to string
-                self.json_object.get('pre_scan_mail'),
-                self.json_object.get('post_scan_mail'),
-                self.json_object.get('failure_scan_mail')
+                self.json_object.get('project_name', ''),
+                self.json_object.get('preset', ''),
+                self.json_object.get('config', ''),
+                self.json_object.get('team', ''),
+                self.json_object.get('local_path', ''),
+                self.json_object.get('source_path', ''),
+                self.json_object.get('excluded_folder', ''),
+                self.json_object.get('excluded_file', ''),
+                self.json_object.get('schedule', ''),
+                self.json_object.get('schedule_date', ''),
+                self.json_object.get('schedule_time', ''),
+                ', '.join(self.json_object.get('schedule_days', [])),
+                self.json_object.get('pre_scan_mail', ''),
+                self.json_object.get('post_scan_mail', ''),
+                self.json_object.get('failure_scan_mail', '')
             ))
             self.connection.commit()
             config.log_info("Project successfully added to the database.")
         except Exception as e:
-            config.log_error(f"Error while inserting Manager_Projects: {e}")
+            config.log_error(f"Error while inserting project: {e}")
 
-    def close(self):
+    def close(self) -> None:
         self.connection.close()
