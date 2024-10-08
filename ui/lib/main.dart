@@ -4,6 +4,7 @@ import 'package:harper/logger.dart';
 
 import 'Pages/loginscreen.dart';
 import 'Pages/staticanalysis.dart';
+import 'Widget/Sast/Projectpanel/savedprojectfetch.dart';
 import 'config.dart';
 
 void main() async {
@@ -26,7 +27,8 @@ class MyApp extends StatelessWidget {
         ),
         // body: LoginScreen(),
         // body: const DashboardScreen(),
-        body: StaticAnalysisPage(),
+        // body: StaticAnalysisPage(),
+        body: SavedProjectsWidget(),
       ),
     );
   }
