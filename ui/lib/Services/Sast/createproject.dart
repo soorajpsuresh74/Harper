@@ -23,13 +23,13 @@ class CreateProjectAPI {
         final responseData = jsonDecode(response.body);
 
         if (responseData['message'] != null){
-          Logger().success('Response from the create sast project api with success message');
+          Logger().success('Response from the create sast Manager_Projects api with success message');
 
         }
 
       } else {
         Logger().error(
-            'Failed to send project data. Status code: ${response.statusCode}, Body: ${response.body}');
+            'Failed to send Manager_Projects data. Status code: ${response.statusCode}, Body: ${response.body}');
       }
     } catch (e) {
       Logger().error('Unexpected error occurred on URL $url: $e');

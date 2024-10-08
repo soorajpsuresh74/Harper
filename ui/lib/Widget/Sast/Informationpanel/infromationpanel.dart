@@ -3,7 +3,7 @@ import 'package:harper/Widget/Sast/Informationpanel/coverage.dart';
 import 'package:harper/Widget/Sast/Informationpanel/duplication.dart';
 import 'package:harper/Widget/Sast/Informationpanel/maintainability.dart';
 import 'package:harper/Widget/Sast/Informationpanel/security.dart';
-import 'Informationpanel/reliability.dart';
+import 'reliability.dart';
 
 class InformationPanel extends StatelessWidget {
   const InformationPanel({super.key});
@@ -94,7 +94,8 @@ class InformationPanel extends StatelessWidget {
                     size: 30, // Icon size for consistency
                   ),
                   const SizedBox(width: 10),
-                  Expanded( // Wrap the title with Expanded to prevent overflow
+                  Expanded(
+                    // Wrap the title with Expanded to prevent overflow
                     child: Text(
                       title,
                       style: const TextStyle(

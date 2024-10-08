@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harper/Widget/Createproject/createproject.dart';
-import 'package:harper/Widget/Sast/infromationpanel.dart';
+import 'package:harper/Widget/Sast/Informationpanel/infromationpanel.dart';
+import 'package:harper/Widget/Sast/Projectpanel/savedprojectfetch.dart';
 
 class StaticAnalysisPage extends StatelessWidget {
   const StaticAnalysisPage({super.key});
@@ -14,7 +15,7 @@ class StaticAnalysisPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Static Analysis'),
         centerTitle: true,
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.blue, // Change to a color of your choice
       ),
       body: Center(
         child: Row(
@@ -25,9 +26,9 @@ class StaticAnalysisPage extends StatelessWidget {
               flex: 1,
               child: Container(
                 constraints: BoxConstraints(
-                  minHeight: screenHeight * 1.0,
+                  minHeight: screenHeight, // Use the full height of the screen
                 ),
-                color: Colors.grey[900], // Dark background
+                color: Colors.white, // Change to white background
                 child: const SingleChildScrollView(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -36,7 +37,7 @@ class StaticAnalysisPage extends StatelessWidget {
                         'Information Panel',
                         style: TextStyle(
                           fontSize: 24,
-                          color: Colors.white,
+                          color: Colors.black, // Change text color to black
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -48,14 +49,14 @@ class StaticAnalysisPage extends StatelessWidget {
               ),
             ),
 
-            // Second column - Button and table
+            // Second column - Button, Saved Projects, and Table
             Expanded(
               flex: 3,
               child: Container(
                 constraints: BoxConstraints(
-                  minHeight: screenHeight * 1.0,
+                  minHeight: screenHeight, // Use the full height of the screen
                 ),
-                color: Colors.grey[850], // Slightly lighter background
+                color: Colors.grey[200], // Change to a lighter background
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -74,13 +75,13 @@ class StaticAnalysisPage extends StatelessWidget {
                                 applicationVersion: '1.0',
                                 children: [
                                   const Text(
-                                      'This will allow searching through the project data.'),
+                                      'This will allow searching through the Manager_Projects data.'),
                                 ],
                               );
                             },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white,
-                              backgroundColor: Colors.black, // White text
+                              backgroundColor: Colors.blue, // Change to a color of your choice
                             ),
                             child: const Text('Search'),
                           ),
@@ -90,7 +91,7 @@ class StaticAnalysisPage extends StatelessWidget {
                           // Create Project Button
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
+                              backgroundColor: Colors.blue, // Change to a color of your choice
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 24, vertical: 12),
                               textStyle: const TextStyle(
@@ -144,6 +145,29 @@ class StaticAnalysisPage extends StatelessWidget {
 
                     const SizedBox(height: 20),
 
+                    // Saved Projects Header
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        'Saved Projects',
+                        style: TextStyle(
+                          fontSize: 22,
+                          color: Colors.black, // Change text color to black
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 10),
+
+                    // Adjust the size of the SavedProjectsWidget based on screen height
+                    SizedBox(
+                      height: screenHeight * 0.4, // Adjust height as needed
+                      child: SavedProjectsWidget(), // Display the saved projects
+                    ),
+
+                    const SizedBox(height: 20),
+
                     // Table container
                     Expanded(
                       child: SingleChildScrollView(
@@ -154,12 +178,12 @@ class StaticAnalysisPage extends StatelessWidget {
                             border: const TableBorder(
                               verticalInside: BorderSide(
                                 width: 1,
-                                color: Colors.white,
+                                color: Colors.black, // Change border color to black
                                 style: BorderStyle.solid,
                               ),
                               horizontalInside: BorderSide(
                                 width: 1,
-                                color: Colors.white,
+                                color: Colors.black, // Change border color to black
                                 style: BorderStyle.solid,
                               ),
                             ),
@@ -167,13 +191,6 @@ class StaticAnalysisPage extends StatelessWidget {
                               0: FlexColumnWidth(1),
                               1: FlexColumnWidth(3),
                             },
-                            children: [
-                              _buildTableRow(
-                                  'Project Name', 'Static Analysis Tool'),
-                              _buildTableRow('Created Date', '2024-10-08'),
-                              _buildTableRow('Owner', 'Sooraj P S'),
-                              _buildTableRow('Status', 'In Progress'),
-                            ],
                           ),
                         ),
                       ),
@@ -187,7 +204,7 @@ class StaticAnalysisPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.blue, // Change to a color of your choice
         child: const Icon(Icons.info, color: Colors.white),
       ),
     );
@@ -202,13 +219,13 @@ class StaticAnalysisPage extends StatelessWidget {
             label,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: Colors.black, // Change text color to black
             ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(value, style: const TextStyle(color: Colors.white)),
+          child: Text(value, style: const TextStyle(color: Colors.black)), // Change text color to black
         ),
       ],
     );
