@@ -14,7 +14,7 @@ class StaticAnalysisPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Static Analysis'),
         centerTitle: true,
-        backgroundColor: Colors.deepPurple,
+        backgroundColor: Colors.black,
       ),
       body: Center(
         child: Row(
@@ -27,21 +27,23 @@ class StaticAnalysisPage extends StatelessWidget {
                 constraints: BoxConstraints(
                   minHeight: screenHeight * 1.0,
                 ),
-                color: Colors.deepPurple[50],
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Information Panel',
-                      style: TextStyle(
-                        fontSize: 24,
-                        color: Colors.deepPurple,
-                        fontWeight: FontWeight.bold,
+                color: Colors.grey[900], // Dark background
+                child: const SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Information Panel',
+                        style: TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    const InformationPanel(),
-                  ],
+                      SizedBox(height: 20),
+                      InformationPanel(),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -53,15 +55,15 @@ class StaticAnalysisPage extends StatelessWidget {
                 constraints: BoxConstraints(
                   minHeight: screenHeight * 1.0,
                 ),
-                color: Colors.deepPurple[100],
+                color: Colors.grey[850], // Slightly lighter background
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Button in its own container, aligned to the right
+                    // Button container
                     Container(
                       padding: const EdgeInsets.all(20),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end, // Align buttons to the right
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           // Search Button
                           ElevatedButton(
@@ -71,19 +73,24 @@ class StaticAnalysisPage extends StatelessWidget {
                                 applicationName: 'Search Function',
                                 applicationVersion: '1.0',
                                 children: [
-                                  const Text('This will allow searching through the project data.'),
+                                  const Text(
+                                      'This will allow searching through the project data.'),
                                 ],
                               );
                             },
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: Colors.black, // White text
+                            ),
                             child: const Text('Search'),
                           ),
 
-                          const SizedBox(width: 10), // Space between buttons
+                          const SizedBox(width: 10),
 
                           // Create Project Button
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.deepPurple,
+                              backgroundColor: Colors.black,
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 24, vertical: 12),
                               textStyle: const TextStyle(
@@ -101,7 +108,7 @@ class StaticAnalysisPage extends StatelessWidget {
                                       'Create New Project',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: Colors.deepPurple,
+                                        color: Colors.black,
                                       ),
                                     ),
                                     content: Container(
@@ -114,7 +121,7 @@ class StaticAnalysisPage extends StatelessWidget {
                                     actions: [
                                       TextButton(
                                         style: TextButton.styleFrom(
-                                          foregroundColor: Colors.deepPurple,
+                                          foregroundColor: Colors.black,
                                         ),
                                         onPressed: () {
                                           Navigator.of(context).pop();
@@ -135,7 +142,6 @@ class StaticAnalysisPage extends StatelessWidget {
                       ),
                     ),
 
-                    // Space between button and table
                     const SizedBox(height: 20),
 
                     // Table container
@@ -148,7 +154,12 @@ class StaticAnalysisPage extends StatelessWidget {
                             border: const TableBorder(
                               verticalInside: BorderSide(
                                 width: 1,
-                                color: Colors.blue,
+                                color: Colors.white,
+                                style: BorderStyle.solid,
+                              ),
+                              horizontalInside: BorderSide(
+                                width: 1,
+                                color: Colors.white,
                                 style: BorderStyle.solid,
                               ),
                             ),
@@ -157,7 +168,8 @@ class StaticAnalysisPage extends StatelessWidget {
                               1: FlexColumnWidth(3),
                             },
                             children: [
-                              _buildTableRow('Project Name', 'Static Analysis Tool'),
+                              _buildTableRow(
+                                  'Project Name', 'Static Analysis Tool'),
                               _buildTableRow('Created Date', '2024-10-08'),
                               _buildTableRow('Owner', 'Sooraj P S'),
                               _buildTableRow('Status', 'In Progress'),
@@ -175,8 +187,8 @@ class StaticAnalysisPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        backgroundColor: Colors.deepPurple,
-        child: const Icon(Icons.info),
+        backgroundColor: Colors.black,
+        child: const Icon(Icons.info, color: Colors.white),
       ),
     );
   }
@@ -190,13 +202,13 @@ class StaticAnalysisPage extends StatelessWidget {
             label,
             style: const TextStyle(
               fontWeight: FontWeight.bold,
-              color: Colors.deepPurple,
+              color: Colors.white,
             ),
           ),
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(value),
+          child: Text(value, style: const TextStyle(color: Colors.white)),
         ),
       ],
     );
