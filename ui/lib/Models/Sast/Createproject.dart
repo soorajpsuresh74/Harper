@@ -14,6 +14,7 @@ class CreateProjectModel {
   final String preScanMail;
   final String postScanMail;
   final String failureScanMail;
+  final bool status;
 
   CreateProjectModel({
     required this.projectName,
@@ -31,6 +32,7 @@ class CreateProjectModel {
     required this.preScanMail,
     required this.postScanMail,
     required this.failureScanMail,
+    required this.status,
   });
 
   Map<String, dynamic> toJson() {
@@ -50,6 +52,7 @@ class CreateProjectModel {
       'preScanMail': preScanMail,
       'postScanMail': postScanMail,
       'failureScanMail': failureScanMail,
+      'status': status
     };
   }
 }

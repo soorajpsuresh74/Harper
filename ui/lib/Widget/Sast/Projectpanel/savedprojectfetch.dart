@@ -14,7 +14,7 @@ class SavedProjectsWidget extends StatelessWidget {
         title: const Text('Saved Projects'),
       ),
       body: FutureBuilder<List<FetchSavedProjectModel>>(
-        future: fetchService.fetchSavedProjects(), // Call your service method here
+        future: fetchService.fetchSavedProjects(), // Fetch the saved projects
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -39,22 +39,33 @@ class SavedProjectsWidget extends StatelessWidget {
             return const Center(child: Text('No saved projects found.'));
           }
 
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              final project = snapshot.data![index];
-              return Card(
-                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                child: ListTile(
-                  title: Text(project.name ?? 'Unnamed Project'),
-                  subtitle: Text(project.id ?? 'No ID'),
-                  onTap: () {
-                    // Navigate to project details or perform another action
-                    // Navigator.push(...);
-                  },
-                ),
-              );
-            },
+          // Display data in DataTable
+          return SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal, // To allow horizontal scrolling for wide tables
+              child: DataTable(
+                columns: const [
+                  DataColumn(label: Text('Project Name')),
+                  DataColumn(label: Text('Project ID')),
+                  DataColumn(label: Text('Configuration')),
+                  DataColumn(label: Text('Team')),
+                  DataColumn(label: Text('Preset')),
+                  DataColumn(label: Text('Status')),
+                ],
+                rows: snapshot.data!.map((project) {
+                  return DataRow(cells: [
+                    DataCell(Text(project.name ?? 'Unnamed Project')),
+                    DataCell(Text(project.id ?? 'No ID')),
+                    DataCell(Text(project.config ?? 'No Date')),
+                    DataCell(Text(project.team ?? 'Unknown Status')),
+                    DataCell(Text(project.preset ?? 'Unknown Status')),
+                    DataCell(bool(project.status ?? 'Unknown Status') as Widget)
+
+                  ]);
+                }).toList(),
+              ),
+            ),
           );
         },
       ),

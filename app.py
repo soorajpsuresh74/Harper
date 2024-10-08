@@ -14,7 +14,7 @@ app = FastAPI(debug=config.DEBUG)
 async def sast_create_project(project: CreateProjectModel):
     data_object = project.dict()
     connector = ProjectSaver(data_object)
-    connector.add_to_db()
+    connector.save_project()
     connector.close()
     return {"message": "success"}
 

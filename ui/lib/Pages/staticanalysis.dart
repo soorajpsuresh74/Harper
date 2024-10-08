@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harper/Widget/Createproject/createproject.dart';
-import 'package:harper/Widget/Sast/infromationpanel.dart';
+import 'package:harper/Widget/Sast/Informationpanel/infromationpanel.dart';
+import 'package:harper/Widget/Sast/Projectpanel/savedprojectfetch.dart';
 
 class StaticAnalysisPage extends StatelessWidget {
   const StaticAnalysisPage({super.key});
@@ -48,7 +49,7 @@ class StaticAnalysisPage extends StatelessWidget {
               ),
             ),
 
-            // Second column - Button and table
+            // Second column - Button, Saved Projects, and Table
             Expanded(
               flex: 3,
               child: Container(
@@ -144,6 +145,26 @@ class StaticAnalysisPage extends StatelessWidget {
 
                     const SizedBox(height: 20),
 
+                    // Saved Projects section
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        'Saved Projects',
+                        style: TextStyle(
+                          fontSize: 22,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+
+                    // Displaying SavedProjectsWidget
+                    Expanded(
+                      child: SavedProjectsWidget(), // Display the saved projects
+                    ),
+
+                    const SizedBox(height: 20),
+
                     // Table container
                     Expanded(
                       child: SingleChildScrollView(
@@ -167,13 +188,6 @@ class StaticAnalysisPage extends StatelessWidget {
                               0: FlexColumnWidth(1),
                               1: FlexColumnWidth(3),
                             },
-                            children: [
-                              _buildTableRow(
-                                  'Project Name', 'Static Analysis Tool'),
-                              _buildTableRow('Created Date', '2024-10-08'),
-                              _buildTableRow('Owner', 'Sooraj P S'),
-                              _buildTableRow('Status', 'In Progress'),
-                            ],
                           ),
                         ),
                       ),

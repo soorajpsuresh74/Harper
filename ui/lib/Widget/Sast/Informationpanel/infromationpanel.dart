@@ -3,7 +3,7 @@ import 'package:harper/Widget/Sast/Informationpanel/coverage.dart';
 import 'package:harper/Widget/Sast/Informationpanel/duplication.dart';
 import 'package:harper/Widget/Sast/Informationpanel/maintainability.dart';
 import 'package:harper/Widget/Sast/Informationpanel/security.dart';
-import 'Informationpanel/reliability.dart';
+import 'reliability.dart';
 
 class InformationPanel extends StatelessWidget {
   const InformationPanel({super.key});

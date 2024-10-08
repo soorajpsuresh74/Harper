@@ -464,6 +464,7 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget> with SingleTi
       preset: _selectedPreset,
       config: _selectedConfig,
       team: _selectedTeam,
+      status: false
     );
 
     CreateProjectAPI api = CreateProjectAPI();

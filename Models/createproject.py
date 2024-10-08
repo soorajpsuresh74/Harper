@@ -18,3 +18,4 @@ class CreateProjectModel(BaseModel):
     preset: Optional[str]
     config: Optional[str]
     team: Optional[str]
+    status: bool

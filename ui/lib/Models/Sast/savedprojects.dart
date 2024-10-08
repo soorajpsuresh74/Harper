@@ -4,6 +4,7 @@ class FetchSavedProjectModel {
   final String preset;
   final String config;
   final String team;
+  final bool status;
 
   FetchSavedProjectModel({
     required this.id,
@@ -11,6 +12,7 @@ class FetchSavedProjectModel {
     required this.preset,
     required this.config,
     required this.team,
+    required this.status
   });
 
   factory FetchSavedProjectModel.fromJson(Map<String, dynamic> json) {
@@ -23,6 +25,7 @@ class FetchSavedProjectModel {
       preset: json['preset'] ?? 'Default Preset',
       config: json['config'] ?? 'Default Config',
       team: json['team'] ?? 'Default Team',
+      status: json['status'] ?? '',
     );
   }
 
@@ -32,6 +35,7 @@ class FetchSavedProjectModel {
       'preset': preset,
       'config': config,
       'team': team,
+      'status': status,
     };
   }
 }

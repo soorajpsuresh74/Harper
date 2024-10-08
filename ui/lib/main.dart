@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
         ),
         // body: LoginScreen(),
         // body: const DashboardScreen(),
-        // body: StaticAnalysisPage(),
-        body: SavedProjectsWidget(),
+        body: StaticAnalysisPage(),
+        // body: SavedProjectsWidget(),
       ),
     );
   }
