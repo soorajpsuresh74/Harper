@@ -23,7 +23,7 @@ class _SidebarState extends State<Sidebar> {
         width: _isHovered ? 250 : 60,
         duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: Colors.blueAccent.shade700,
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
