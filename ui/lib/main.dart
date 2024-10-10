@@ -27,10 +27,10 @@ class MyApp extends StatelessWidget {
           title: Text(EnvLoader().getName() ?? ''),
         ),
         // body: LoginScreen(),
-        // body: const DashboardScreen(),
+        body: const DashboardScreen(),
         // body: StaticAnalysisPage(),
         // body: SavedProjectsWidget(),
-        body: const HarperRulesPage(),
+        // body: const HarperRulesPage(),
       ),
     );
   }

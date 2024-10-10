@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sidebarx/sidebarx.dart';
-import '../Widget/Dashboard/sidebar.dart';
-import '../Widget/Dashboard/card_widget.dart'; // Import the CardWidget
+import 'package:harper/Widget/Dashboard/headerstat.dart';
+import 'package:harper/Widget/Dashboard/projectlist.dart';
+import 'package:harper/Widget/Dashboard/sidebar.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -25,13 +26,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: Row(
         children: [
           Sidebar(controller: _controller),
-          const Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SizedBox(height: 20),
-                CardWidget(),
-              ],
+          Expanded(
+            child: Padding(  // Added Padding widget here
+              padding: const EdgeInsets.all(16.0),  // Adjust the value as needed
+              child: Column(
+                children: [
+                  const HeaderStats(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Expanded(child: ProjectListScreen()),  // Ensure ProjectListScreen is scrollable
+                ],
+              ),
             ),
           ),
         ],
