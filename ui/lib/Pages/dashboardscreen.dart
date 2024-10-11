@@ -13,6 +13,7 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   late final SidebarXController _controller;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -26,16 +27,40 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: Row(
         children: [
           Sidebar(controller: _controller),
-          const Expanded(
-            child: Padding(  // Added Padding widget here
-              padding: EdgeInsets.all(16.0),  // Adjust the value as needed
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  HeaderStats(),
-                  SizedBox(
-                    height: 20,
+                  // Stats Header
+                  const HeaderStats(),
+                  const SizedBox(height: 20),
+
+                  // Small Search Box aligned to the left
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: SizedBox(
+                      width: 250, // Set a smaller width for the search bar
+                      child: TextField(
+                        controller: _searchController,
+                        decoration: InputDecoration(
+                          hintText: 'Search...',
+                          prefixIcon: const Icon(Icons.search),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(8.0),
+                          ),
+                        ),
+                        onSubmitted: (query) {
+                          print('Search query: $query');
+                        },
+                      ),
+                    ),
                   ),
-                  Expanded(child: ProjectListScreen()),  // Ensure ProjectListScreen is scrollable
+                  const SizedBox(height: 20),
+
+                  // Project List
+                  const Expanded(child: ProjectListScreen()),
                 ],
               ),
             ),
@@ -43,5 +68,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    _controller.dispose();
+    super.dispose();
   }
 }
