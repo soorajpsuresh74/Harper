@@ -26,13 +26,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
       body: Row(
         children: [
           Sidebar(controller: _controller),
-          Expanded(
+          const Expanded(
             child: Padding(  // Added Padding widget here
-              padding: const EdgeInsets.all(16.0),  // Adjust the value as needed
+              padding: EdgeInsets.all(16.0),  // Adjust the value as needed
               child: Column(
                 children: [
-                  const HeaderStats(),
-                  const SizedBox(
+                  HeaderStats(),
+                  SizedBox(
                     height: 20,
                   ),
                   Expanded(child: ProjectListScreen()),  // Ensure ProjectListScreen is scrollable

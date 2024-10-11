@@ -1,12 +1,12 @@
 class ProjectManagerMain {
-  final String id;
+  final int id;
   final String projectName;
   final String projectSource;
-  final DateTime lastScan;
+  final String lastScan;
   final List tags;
-  final String high;
-  final String medium;
-  final String low;
+  final int high;
+  final int medium;
+  final int low;
 
   ProjectManagerMain({
     required this.id,
