@@ -1,22 +1,18 @@
 class GetAllSastDastProjectsModel {
   final int id;
   final String projectName;
-  final String projectSource;
-  final String lastScan;
-  final List tags;
-  final int high;
-  final int medium;
-  final int low;
+  final String config;
+  final String team;
+  final List preset;
+  final int status;
 
   GetAllSastDastProjectsModel({
     required this.id,
     required this.projectName,
-    required this.projectSource,
-    required this.lastScan,
-    required this.tags,
-    required this.high,
-    required this.medium,
-    required this.low,
+    required this.config,
+    required this.team,
+    required this.preset,
+    required this.status,
   });
 
   factory GetAllSastDastProjectsModel.fromJson(Map<String, dynamic> json) {
@@ -26,23 +22,19 @@ class GetAllSastDastProjectsModel {
     return GetAllSastDastProjectsModel(
         id: json['id'],
         projectName: json['projectName'],
-        projectSource: json['projectSource'],
-        lastScan: json['lastScan'],
-        tags: json['tags'],
-        high: json['high'],
-        medium: json['medium'],
-        low: json['low']);
+        config: json['config'],
+        team: json['team'],
+        preset: json['preset'],
+        status: json['status']);
   }
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'projectName': projectName,
-      'projectSource': projectSource,
-      'lastScan': lastScan,
-      'tags': tags,
-      'high': high,
-      'medium': medium,
-      'low': low,
+      'config': config,
+      'team': team,
+      'preset': preset,
+      'status': status,
     };
   }
 }
