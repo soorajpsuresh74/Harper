@@ -13,7 +13,7 @@ from database.Manager_Projects.saveprojects import ProjectSaver
 app = FastAPI(debug=config.DEBUG)
 
 
-@app.post('/API/sastproject/create')
+@app.post('/API/sast/create')
 async def sast_create_project(project: CreateProjectModel):
     data_object = project.dict()
     connector = ProjectSaver(data_object)

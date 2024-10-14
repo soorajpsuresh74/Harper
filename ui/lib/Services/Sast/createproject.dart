@@ -6,8 +6,8 @@ import 'package:http/http.dart' as http;
 
 class CreateProjectAPI {
   Future<void> sendProjectData(CreateProjectModel projectData) async {
-    final url = Uri.parse('${EnvLoader().getApiUrl()}/sastproject/create');
-    Logger().info('${EnvLoader().getApiUrl()}/sastproject/create');
+    final url = Uri.parse('${EnvLoader().getApiUrl()}/sast/create');
+    Logger().info('${EnvLoader().getApiUrl()}/sast/create');
 
     try {
       final response = await http.post(

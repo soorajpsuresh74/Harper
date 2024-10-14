@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
           title: Text(EnvLoader().getName() ?? ''),
         ),
         // body: LoginScreen(),
-        body: const DashboardScreen(),
+        body: const DashboardPage(),
         // body: StaticAnalysisPage(),
         // body: SavedProjectsWidget(),
         // body: const HarperRulesPage(),
