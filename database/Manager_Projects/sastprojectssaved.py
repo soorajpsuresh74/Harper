@@ -4,10 +4,10 @@ import sqlite3
 import config
 
 
-class ProjectFetcher:
+class SASTProjectsSaved:
     def __init__(self):
         base_directory = 'database/store/data/'
-        db_path = os.path.join(base_directory, 'saved_projects.db')
+        db_path = os.path.join(base_directory, 'DB_SAST_projects.db')
 
         self.connection = sqlite3.connect(db_path)
         self.cursor = self.connection.cursor()

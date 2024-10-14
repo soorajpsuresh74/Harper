@@ -8,11 +8,11 @@ import config
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
-class ProjectSaver:
+class SASTProjectSaver:
     def __init__(self, json_object: dict):
         self.json_object = json_object
         base_directory = 'database/store/data/'
-        db_path = os.path.join(base_directory, 'saved_projects.db')
+        db_path = os.path.join(base_directory, 'DB_SAST_projects.db')
 
         # Ensure the directory exists
         if not os.path.exists(base_directory):
