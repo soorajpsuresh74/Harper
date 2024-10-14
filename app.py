@@ -5,9 +5,10 @@ import config
 
 from Models.dast.createprojectdast import CreateProjectModelDAST
 from Models.sast.createprojectsast import CreateProjectModelSAST
-from database.Manager_Projects.dastprojectsaver import DASTProjectSaver
-from database.Manager_Projects.sastprojectsaver import SASTProjectSaver
-from database.Manager_Projects.sastprojectssaved import SASTProjectsSaved
+from database.Manager_Projects.dast.dastprojectsaver import DASTProjectSaver
+from database.Manager_Projects.dast.dastprojectssaved import DASTProjectsSaved
+from database.Manager_Projects.sast.sastprojectsaver import SASTProjectSaver
+from database.Manager_Projects.sast.sastprojectssaved import SASTProjectsSaved
 
 app = FastAPI(debug=config.DEBUG)
 
@@ -33,6 +34,15 @@ async def dast_create_project(project: CreateProjectModelDAST):
 @app.get('/API/sast/projects/saved')
 async def show_saved_projects():
     fetcher = SASTProjectsSaved()
+    projects = fetcher.fetch_saved()
+    if not projects:
+        raise HTTPException(status_code=404, detail="No projects found")
+    return JSONResponse(content=projects)
+
+
+@app.get('/API/dast/projects/saved')
+async def show_saved_projects():
+    fetcher = DASTProjectsSaved()
     projects = fetcher.fetch_saved()
     if not projects:
         raise HTTPException(status_code=404, detail="No projects found")
