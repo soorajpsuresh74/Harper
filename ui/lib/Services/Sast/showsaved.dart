@@ -6,7 +6,7 @@ import 'package:harper/Models/Sast/savedprojects.dart';
 
 class FetchSavedServiceAPI {
   final String baseUrl = EnvLoader().getApiUrl();
-  final String newUrl = 'saved_projects';
+  final String newUrl = 'sast/projects/saved';
 
   Future<List<FetchSavedProjectModel>> fetchSavedProjects() async {
     final String url = '$baseUrl/$newUrl';

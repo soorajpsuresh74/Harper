@@ -1,30 +1,48 @@
-from typing import List
-
 from fastapi import FastAPI, HTTPException
 import uvicorn
 from fastapi.responses import JSONResponse
-
 import config
-from Models.createproject import CreateProjectModel
-from Models.projectmanagermain import ProjectManagerMain
-from database.Manager_Projects.fetchsavedproject import ProjectFetcher
-from database.Manager_Projects.saveprojects import ProjectSaver
+
+from Models.dast.createprojectdast import CreateProjectModelDAST
+from Models.sast.createprojectsast import CreateProjectModelSAST
+from database.Manager_Projects.dast.dastprojectsaver import DASTProjectSaver
+from database.Manager_Projects.dast.dastprojectssaved import DASTProjectsSaved
+from database.Manager_Projects.sast.sastprojectsaver import SASTProjectSaver
+from database.Manager_Projects.sast.sastprojectssaved import SASTProjectsSaved
 
 app = FastAPI(debug=config.DEBUG)
 
 
-@app.post('/API/sastproject/create')
-async def sast_create_project(project: CreateProjectModel):
+@app.post('/API/sast/create')
+async def sast_create_project(project: CreateProjectModelSAST):
     data_object = project.dict()
-    connector = ProjectSaver(data_object)
+    connector = SASTProjectSaver(data_object)
     connector.save_project()
     connector.close()
     return {"message": "success"}
 
 
-@app.get('/API/saved_projects')
+@app.post('/API/dast/create')
+async def dast_create_project(project: CreateProjectModelDAST):
+    data_object = project.dict()
+    connector = DASTProjectSaver(data_object)
+    connector.save_project()
+    connector.close()
+    return {"message": "success"}
+
+
+@app.get('/API/sast/projects/saved')
 async def show_saved_projects():
-    fetcher = ProjectFetcher()
+    fetcher = SASTProjectsSaved()
+    projects = fetcher.fetch_saved()
+    if not projects:
+        raise HTTPException(status_code=404, detail="No projects found")
+    return JSONResponse(content=projects)
+
+
+@app.get('/API/dast/projects/saved')
+async def show_saved_projects():
+    fetcher = DASTProjectsSaved()
     projects = fetcher.fetch_saved()
     if not projects:
         raise HTTPException(status_code=404, detail="No projects found")

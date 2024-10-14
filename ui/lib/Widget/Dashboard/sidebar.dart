@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:harper/Pages/scannedprojects.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:harper/Pages/staticanalysis.dart';
+import 'package:harper/Pages/dynamicnalysis.dart';
 
 class Sidebar extends StatefulWidget {
   final SidebarXController controller;
@@ -36,13 +38,13 @@ class _SidebarState extends State<Sidebar> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
-            buildMenuItem(
-              context,
-              icon: Icons.dashboard,
-              label: 'Home',
-              isHovered: _isHovered,
-              onClicked: () => widget.controller.selectIndex(0),
-            ),
+            // buildMenuItem(
+            //   context,
+            //   icon: Icons.dashboard,
+            //   label: 'Home',
+            //   isHovered: _isHovered,
+            //   onClicked: () => widget.controller.selectIndex(0),
+            // ),
             buildMenuItem(
               context,
               icon: Icons.settings,
@@ -50,6 +52,16 @@ class _SidebarState extends State<Sidebar> {
               isHovered: _isHovered,
               onClicked: () => widget.controller.selectIndex(1),
             ),
+            buildMenuItem(context,
+                icon: Icons.dynamic_feed,
+                label: 'Scanned Projects',
+                isHovered: _isHovered, onClicked: () {
+              widget.controller.selectIndex(2);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const Scannedprojects()));
+            }),
             buildMenuItem(context,
                 icon: Icons.dynamic_feed,
                 label: 'Static Analysis',
@@ -60,13 +72,16 @@ class _SidebarState extends State<Sidebar> {
                   MaterialPageRoute(
                       builder: (context) => const StaticAnalysisPage()));
             }),
-            buildMenuItem(
-              context,
-              icon: Icons.code,
-              label: 'Dynamic Analysis',
-              isHovered: _isHovered,
-              onClicked: () => widget.controller.selectIndex(3),
-            ),
+            buildMenuItem(context,
+                icon: Icons.code,
+                label: 'Dynamic Analysis',
+                isHovered: _isHovered, onClicked: () {
+              widget.controller.selectIndex(3);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const DynamicAnalysisPage()));
+            }),
             buildMenuItem(
               context,
               icon: Icons.settings,

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:harper/Widget/Dast/Createproject/createproject.dart';
-import 'package:harper/Widget/Sast/Informationpanel/infromationpanel.dart';
-import 'package:harper/Widget/Sast/Projectpanel/savedprojectfetch.dart';
+import 'package:harper/Widget/Dast/Informationpanel/infromationpanel.dart';
+import 'package:harper/Widget/Dast/Projectpanel/savedprojectfetch.dart';
 
-class StaticAnalysisPage extends StatelessWidget {
-  const StaticAnalysisPage({super.key});
+class DynamicAnalysisPage extends StatelessWidget {
+  const DynamicAnalysisPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +13,7 @@ class StaticAnalysisPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Static Analysis'),
+        title: const Text('Dynamic Analysis'),
         centerTitle: true,
         backgroundColor: Colors.blue, // Change to a color of your choice
       ),
@@ -81,7 +81,8 @@ class StaticAnalysisPage extends StatelessWidget {
                             },
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white,
-                              backgroundColor: Colors.blue, // Change to a color of your choice
+                              backgroundColor: Colors
+                                  .blue, // Change to a color of your choice
                             ),
                             child: const Text('Search'),
                           ),
@@ -91,7 +92,8 @@ class StaticAnalysisPage extends StatelessWidget {
                           // Create Project Button
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blue, // Change to a color of your choice
+                              backgroundColor: Colors
+                                  .blue, // Change to a color of your choice
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 24, vertical: 12),
                               textStyle: const TextStyle(
@@ -163,7 +165,8 @@ class StaticAnalysisPage extends StatelessWidget {
                     // Adjust the size of the SavedProjectsWidget based on screen height
                     SizedBox(
                       height: screenHeight * 0.4, // Adjust height as needed
-                      child: SavedProjectsWidget(), // Display the saved projects
+                      child:
+                          SavedProjectsWidget(), // Display the saved projects
                     ),
 
                     const SizedBox(height: 20),
@@ -178,12 +181,14 @@ class StaticAnalysisPage extends StatelessWidget {
                             border: const TableBorder(
                               verticalInside: BorderSide(
                                 width: 1,
-                                color: Colors.black, // Change border color to black
+                                color: Colors
+                                    .black, // Change border color to black
                                 style: BorderStyle.solid,
                               ),
                               horizontalInside: BorderSide(
                                 width: 1,
-                                color: Colors.black, // Change border color to black
+                                color: Colors
+                                    .black, // Change border color to black
                                 style: BorderStyle.solid,
                               ),
                             ),
@@ -225,7 +230,9 @@ class StaticAnalysisPage extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child: Text(value, style: const TextStyle(color: Colors.black)), // Change text color to black
+          child: Text(value,
+              style: const TextStyle(
+                  color: Colors.black)), // Change text color to black
         ),
       ],
     );

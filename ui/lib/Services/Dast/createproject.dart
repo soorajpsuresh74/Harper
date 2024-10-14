@@ -1,13 +1,13 @@
 import 'dart:convert';
-import 'package:harper/Models/Sast/Createproject.dart';
+import 'package:harper/Models/Dast/createprojectdast.dart';
 import 'package:harper/config.dart';
 import 'package:harper/logger.dart';
 import 'package:http/http.dart' as http;
 
 class CreateProjectAPI {
-  Future<void> sendProjectData(CreateProjectModel projectData) async {
-    final url = Uri.parse('${EnvLoader().getApiUrl()}/sast/create');
-    Logger().info('${EnvLoader().getApiUrl()}/sast/create');
+  Future<void> sendProjectData(CreateProjectModelDAST projectData) async {
+    final url = Uri.parse('${EnvLoader().getApiUrl()}/dast/create');
+    Logger().info('${EnvLoader().getApiUrl()}/dast/create');
 
     try {
       final response = await http.post(
@@ -23,7 +23,7 @@ class CreateProjectAPI {
         final responseData = jsonDecode(response.body);
 
         if (responseData['message'] != null){
-          Logger().success('Response from the create sast Manager_Projects api with success message');
+          Logger().success('Response from the create dast Manager_Projects api with success message');
 
         }
 

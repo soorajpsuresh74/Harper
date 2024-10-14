@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:sidebarx/sidebarx.dart';
-import 'package:harper/Widget/Dashboard/headerstat.dart';
-import 'package:harper/Widget/Dashboard/projectlist.dart';
 import 'package:harper/Widget/Dashboard/sidebar.dart';
+import 'package:sidebarx/sidebarx.dart';
 
-class DashboardScreen extends StatefulWidget {
-  const DashboardScreen({super.key});
+class DashboardPage extends StatefulWidget {
+  const DashboardPage({super.key});
 
   @override
-  _DashboardScreenState createState() => _DashboardScreenState();
+  _DashboardPage createState() => _DashboardPage();
 }
 
-class _DashboardScreenState extends State<DashboardScreen> {
+class _DashboardPage extends State<DashboardPage> {
   late final SidebarXController _controller;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -22,24 +21,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: Row(
         children: [
-          Sidebar(controller: _controller),
-          const Expanded(
-            child: Padding(  // Added Padding widget here
-              padding: EdgeInsets.all(16.0),  // Adjust the value as needed
-              child: Column(
-                children: [
-                  HeaderStats(),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Expanded(child: ProjectListScreen()),  // Ensure ProjectListScreen is scrollable
-                ],
-              ),
-            ),
-          ),
+          Sidebar(controller: _controller)
         ],
       ),
     );
