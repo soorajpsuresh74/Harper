@@ -5,6 +5,7 @@ import config
 
 from Models.dast.createprojectdast import CreateProjectModelDAST
 from Models.sast.createprojectsast import CreateProjectModelSAST
+from database.Manager_Projects.ProjectManager import ProjectManagerDB
 from database.Manager_Projects.dast.dastprojectsaver import DASTProjectSaver
 from database.Manager_Projects.dast.dastprojectssaved import DASTProjectsSaved
 from database.Manager_Projects.sast.sastprojectsaver import SASTProjectSaver
@@ -47,6 +48,13 @@ async def show_saved_projects():
     if not projects:
         raise HTTPException(status_code=404, detail="No projects found")
     return JSONResponse(content=projects)
+
+
+@app.get('/API/all_saved_projects')
+async def show_all_projects():
+    dbs_manager = ProjectManagerDB()
+    all_projects_dbs = dbs_manager.get_all_projects()
+    return all_projects_dbs
 
 
 @app.get('/API/projectmanager/fetch1')

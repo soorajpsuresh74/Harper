@@ -3,6 +3,7 @@ import 'package:harper/Pages/scannedprojects.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:harper/Pages/staticanalysis.dart';
 import 'package:harper/Pages/dynamicnalysis.dart';
+import 'package:harper/Pages/dashboardscreen.dart';
 
 class Sidebar extends StatefulWidget {
   final SidebarXController controller;
@@ -45,13 +46,16 @@ class _SidebarState extends State<Sidebar> {
             //   isHovered: _isHovered,
             //   onClicked: () => widget.controller.selectIndex(0),
             // ),
-            buildMenuItem(
-              context,
-              icon: Icons.settings,
-              label: 'Applications & Projects',
-              isHovered: _isHovered,
-              onClicked: () => widget.controller.selectIndex(1),
-            ),
+            buildMenuItem(context,
+                icon: Icons.settings,
+                label: 'Applications & Projects',
+                isHovered: _isHovered, onClicked: () {
+              widget.controller.selectIndex(0);
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ProjectsAndAppplication()));
+            }),
             buildMenuItem(context,
                 icon: Icons.dynamic_feed,
                 label: 'Scanned Projects',
