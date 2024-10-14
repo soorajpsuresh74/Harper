@@ -2,7 +2,7 @@ from pydantic import BaseModel, EmailStr
 from typing import List, Optional
 
 
-class CreateProjectModel(BaseModel):
+class CreateProjectModelDAST(BaseModel):
     projectName: str
     preset: Optional[str]
     config: Optional[str]

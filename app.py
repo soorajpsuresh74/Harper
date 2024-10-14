@@ -1,11 +1,11 @@
-from typing import List
-
 from fastapi import FastAPI, HTTPException
 import uvicorn
 from fastapi.responses import JSONResponse
 import config
-from Models.createproject import CreateProjectModel
 
+from Models.dast.createprojectdast import CreateProjectModelDAST
+from Models.sast.createprojectsast import CreateProjectModelSAST
+from database.Manager_Projects.dastprojectsaver import DASTProjectSaver
 from database.Manager_Projects.sastprojectsaver import SASTProjectSaver
 from database.Manager_Projects.sastprojectssaved import SASTProjectsSaved
 
@@ -13,9 +13,18 @@ app = FastAPI(debug=config.DEBUG)
 
 
 @app.post('/API/sast/create')
-async def sast_create_project(project: CreateProjectModel):
+async def sast_create_project(project: CreateProjectModelSAST):
     data_object = project.dict()
     connector = SASTProjectSaver(data_object)
+    connector.save_project()
+    connector.close()
+    return {"message": "success"}
+
+
+@app.post('/API/dast/create')
+async def dast_create_project(project: CreateProjectModelDAST):
+    data_object = project.dict()
+    connector = DASTProjectSaver(data_object)
     connector.save_project()
     connector.close()
     return {"message": "success"}

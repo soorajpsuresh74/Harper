@@ -80,7 +80,7 @@ class _SidebarState extends State<Sidebar> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => DynamicAnalysisPage()));
+                      builder: (context) => const DynamicAnalysisPage()));
             }),
             buildMenuItem(
               context,
