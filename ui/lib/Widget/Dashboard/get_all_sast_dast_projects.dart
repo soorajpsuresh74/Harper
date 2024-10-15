@@ -22,7 +22,8 @@ class _GetAllSastDastProjectsState extends State<GetAllSastDastProjects> {
 
   Future<void> _fetchProjects() async {
     try {
-      final projects = await GetAllSastDastProjectsServive().fetchSavedProjects();
+      final projects =
+          await GetAllSastDastProjectsServive().fetchSavedProjects();
       setState(() {
         _projects = projects;
         _isLoading = false;
@@ -31,7 +32,8 @@ class _GetAllSastDastProjectsState extends State<GetAllSastDastProjects> {
       setState(() {
         _isLoading = false;
       });
-      print('Error fetching projects for get all_projects in Application and Project Screen: $e');
+      print(
+          'Error fetching projects for get all_projects in Application and Project Screen: $e');
     }
   }
 
@@ -40,22 +42,26 @@ class _GetAllSastDastProjectsState extends State<GetAllSastDastProjects> {
     return Scaffold(
       body: _isLoading
           ? const Center(
-        child: CircularProgressIndicator(),
-      )
+              child: CircularProgressIndicator(),
+            )
           : _projects.isEmpty
-          ? const Center(
-        child: Text('No projects found'),
-      )
-          : AllProjectTableScreen(projects: _projects),
+              ? const Center(
+                  child: Text('No projects found'),
+                )
+              : AllProjectTableScreen(projects: _projects),
     );
   }
 
   AllProject _convertToAllProject(GetAllSastDastProjectsModel projectMain) {
     return AllProject(
-      projectMain.projectName ?? 'Unnamed Project', // Default to 'Unnamed Project' if null
-      projectMain.config ?? 'Unknown Source', // Default to 'Unknown Source' if null
+      projectMain.projectName ??
+          'Unnamed Project', // Default to 'Unnamed Project' if null
+      projectMain.config ??
+          'Unknown Source', // Default to 'Unknown Source' if null
       projectMain.team ?? 'Unknown Time', // Default to 'Unknown Time' if null
-      projectMain.preset.isNotEmpty ? 'Has Preset' : 'No Preset', // Adjusting preset field
+      projectMain.preset.isNotEmpty
+          ? 'Has Preset'
+          : 'No Preset', // Adjusting preset field
       projectMain.status, // Handle status safely as String
     );
   }
@@ -81,7 +87,8 @@ class AllProjectTableScreen extends StatelessWidget {
           border: TableBorder.all(
             color: Colors.grey[300]!,
             width: 1,
-            borderRadius: BorderRadius.circular(8), // Rounded corners for the whole table
+            borderRadius:
+                BorderRadius.circular(8), // Rounded corners for the whole table
           ),
           columns: const [
             DataColumn(label: Text('Name')),
@@ -89,6 +96,7 @@ class AllProjectTableScreen extends StatelessWidget {
             DataColumn(label: Text('Last Scan')),
             DataColumn(label: Text('Tags')),
             DataColumn(label: Text('Status')),
+            DataColumn(label: Text('Actions')),
           ],
           rows: projects.map((project) {
             return _buildDataRow(
@@ -97,6 +105,7 @@ class AllProjectTableScreen extends StatelessWidget {
               project.team ?? 'Unknown Time',
               project.preset.isNotEmpty ? 'Has Preset' : 'No Preset',
               project.status,
+              project.random, // If random is available
             );
           }).toList(),
         ),
@@ -104,7 +113,12 @@ class AllProjectTableScreen extends StatelessWidget {
     );
   }
 
-  DataRow _buildDataRow(String name, String source, String lastScan, String tags, String status) {
+  DataRow _buildDataRow(String name, String source, String lastScan,
+      String tags, String status, String? random) {
+    // Supply a default value for random if it's null or empty.
+    final randomValue =
+        (random != null && random.isNotEmpty) ? random : _generateRandomValue();
+
     return DataRow(
       cells: [
         DataCell(Text(name)),
@@ -129,8 +143,22 @@ class AllProjectTableScreen extends StatelessWidget {
             ),
           ),
         )),
+        DataCell(_buildActions(
+            randomValue)), // Use randomValue for actions or display
       ],
     );
+  }
+
+  // Placeholder method to simulate random value generation
+  String _generateRandomValue() {
+    // Generates a placeholder random value, replace this with your own logic
+    return 'RandomValue-${DateTime.now().millisecondsSinceEpoch}';
+  }
+
+  // Method to display actions (you can customize it further)
+  Widget _buildActions(String randomValue) {
+    return Text(
+        randomValue); // Display the random value or use this widget for any action buttons
   }
 
   Color _getStatusColor(String status) {

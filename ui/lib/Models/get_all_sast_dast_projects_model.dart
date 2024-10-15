@@ -27,6 +27,8 @@ class GetAllSastDastProjectsModel {
         preset: json['preset'],
         status: json['status']);
   }
+
+  String? get random => null;
   Map<String, dynamic> toJson() {
     return {
       'id': id,
