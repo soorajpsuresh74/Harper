@@ -24,9 +24,6 @@ class _ProjectsAndAppplication extends State<ProjectsAndAppplication> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
     return Scaffold(
       body: Row(
         children: [
@@ -37,9 +34,19 @@ class _ProjectsAndAppplication extends State<ProjectsAndAppplication> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  HeaderStats(),
-                  ProjectsAndAppplicationButtons(),
-                  Expanded(child: GetAllSastDastProjects()),
+                  // All widgets will now have the same size
+                  Expanded(
+                    flex: 0,  // Equal space for HeaderStats
+                    child: HeaderStats(),
+                  ),
+                  Expanded(
+                    flex: 0,  // Equal space for ProjectsAndAppplicationButtons
+                    child: ProjectsAndAppplicationButtons(),
+                  ),
+                  Expanded(
+                    flex: 2,  // Equal space for GetAllSastDastProjects
+                    child: GetAllSastDastProjects(),
+                  ),
                 ],
               ),
             ),
