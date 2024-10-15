@@ -3,8 +3,8 @@ class GetAllSastDastProjectsModel {
   final String projectName;
   final String config;
   final String team;
-  final List preset;
-  final int status;
+  final String preset;
+  final String status;
 
   GetAllSastDastProjectsModel({
     required this.id,

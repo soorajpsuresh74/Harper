@@ -31,7 +31,7 @@ class _GetAllSastDastProjectsState extends State<GetAllSastDastProjects> {
       setState(() {
         _isLoading = false;
       });
-      print('Error fetching projects: $e'); // Debugging info for errors
+      print('Error fetching projects for get all_projects in Application and Project Screen: $e'); // Debugging info for errors
     }
   }
 
