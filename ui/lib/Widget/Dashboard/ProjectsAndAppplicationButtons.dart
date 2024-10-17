@@ -8,61 +8,49 @@ class ProjectsAndAppplicationButtons extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16.0), // Add padding to the container
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          // Search button
           OutlinedButton(
             onPressed: () {
               // Handle search action
             },
             style: OutlinedButton.styleFrom(
-              backgroundColor: Colors.white70, // Button background color
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 45,
-                  vertical: 8), // Increase padding for a larger button
-              side: const BorderSide(
-                  color: Colors.grey), // Border color if needed
+              backgroundColor: Colors.white70,
+              padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 8),
+              side: const BorderSide(color: Colors.grey),
               textStyle: const TextStyle(
                 fontSize: 15, // Increase font size for a larger text
                 fontWeight: FontWeight.normal,
               ),
             ),
             child: const Row(
-              mainAxisAlignment: MainAxisAlignment.start, // Left align the text
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Icon(Icons.search,
-                    size: 15), // Optional search icon to the left of the text
-                SizedBox(width: 10), // Space between the icon and the text
+                Icon(Icons.search, size: 15),
+                SizedBox(width: 10),
                 Text('Search'),
               ],
             ),
           ),
 
-          const SizedBox(width: 10), // Add space between buttons
+          const SizedBox(width: 10),
 
-          // All findings button
           OutlinedButton(
-            onPressed: () {
-              // Handle search action
-            },
+            onPressed: () {},
             style: OutlinedButton.styleFrom(
-              backgroundColor: Colors.white70, // Button background color
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 45,
-                  vertical: 8), // Increase padding for a larger button
-              side: const BorderSide(
-                  color: Colors.grey), // Border color if needed
+              backgroundColor: Colors.white70,
+              padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 8),
+              side: const BorderSide(color: Colors.grey),
               textStyle: const TextStyle(
-                fontSize: 15, // Increase font size for a larger text
+                fontSize: 15,
                 fontWeight: FontWeight.normal,
               ),
             ),
             child: const Row(
-              mainAxisAlignment: MainAxisAlignment.start, // Left align the text
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Icon(Icons.all_inbox,
-                    size: 15), // Optional search icon to the left of the text
-                SizedBox(width: 10), // Space between the icon and the text
+                Icon(Icons.all_inbox, size: 15),
+                SizedBox(width: 10),
                 Text('All Findings'),
               ],
             ),
@@ -74,59 +62,51 @@ class ProjectsAndAppplicationButtons extends StatelessWidget {
               // Handle search action
             },
             style: OutlinedButton.styleFrom(
-              backgroundColor: Colors.white70, // Button background color
-              padding: const EdgeInsets.symmetric(
-                  horizontal: 45,
-                  vertical: 8), // Increase padding for a larger button
-              side: const BorderSide(
-                  color: Colors.grey), // Border color if needed
+              backgroundColor: Colors.white70,
+              padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 8),
+              side: const BorderSide(color: Colors.grey),
               textStyle: const TextStyle(
-                fontSize: 15, // Increase font size for a larger text
+                fontSize: 15,
                 fontWeight: FontWeight.normal,
               ),
             ),
             child: const Row(
-              mainAxisAlignment: MainAxisAlignment.start, // Left align the text
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Icon(Icons.filter,
-                    size: 15), // Optional search icon to the left of the text
-                SizedBox(width: 10), // Space between the icon and the text
+                Icon(Icons.filter, size: 15),
+                SizedBox(width: 10),
                 Text('Refined'),
               ],
             ),
           ),
-          const SizedBox(width: 10), // Add space between buttons
+          const SizedBox(width: 10),
 
           // All types button
           OutlinedButton(
-            onPressed: () {
-              // Handle search action
-            },
+            onPressed: () {},
             style: OutlinedButton.styleFrom(
-              backgroundColor: Colors.white70, // Button background color
-              padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 8), // Increase padding for a larger button
-              side: const BorderSide(color: Colors.grey), // Border color if needed
+              backgroundColor: Colors.white70,
+              padding: const EdgeInsets.symmetric(horizontal: 45, vertical: 8),
+              side: const BorderSide(color: Colors.grey),
               textStyle: const TextStyle(
-                fontSize: 15, // Increase font size for a larger text
+                fontSize: 15,
                 fontWeight: FontWeight.normal,
               ),
             ),
             child: const Row(
-              mainAxisAlignment: MainAxisAlignment.start, // Left align the text
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Icon(Icons.type_specimen, size: 15), // Optional search icon to the left of the text
-                SizedBox(width: 10), // Space between the icon and the text
+                Icon(Icons.type_specimen, size: 15),
+                SizedBox(width: 10),
                 Text('All types'),
               ],
             ),
           ),
 
-          const SizedBox(width: 30), // Add space between buttons
+          const SizedBox(width: 30),
 
-          // Actions dropdown button
           DropdownButton<String>(
-            value:
-            'Action 1', // Set the default value to an actual item in the list
+            value: 'Action 1',
             items: <String>['Action 1', 'Action 2', 'Action 3']
                 .map((String value) {
               return DropdownMenuItem<String>(
@@ -134,16 +114,13 @@ class ProjectsAndAppplicationButtons extends StatelessWidget {
                 child: Text(value),
               );
             }).toList(),
-            onChanged: (String? value) {
-              // Handle dropdown selection change
-            },
+            onChanged: (String? value) {},
             icon: const Icon(Icons.arrow_downward),
             elevation: 16,
-            style:
-            const TextStyle(color: Colors.grey,fontSize: 16), // Customize dropdown text style
+            style: const TextStyle(color: Colors.grey, fontSize: 16),
             underline: Container(
               height: 2,
-              color: Colors.black, // Customize the underline
+              color: Colors.black,
             ),
           ),
         ],
@@ -151,15 +128,3 @@ class ProjectsAndAppplicationButtons extends StatelessWidget {
     );
   }
 }
-
-// void main() {
-//   runApp(MaterialApp(
-//     home: Scaffold(
-//       appBar: AppBar(
-//         title: const Text('Flutter Buttons and Dropdown'),
-//         backgroundColor: Colors.blue,
-//       ),
-//       body: ProjectsAndAppplicationButtons(),
-//     ),
-//   ));
-// }

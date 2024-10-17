@@ -34,17 +34,16 @@ class _ProjectsAndAppplication extends State<ProjectsAndAppplication> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // All widgets will now have the same size
                   Expanded(
-                    flex: 0,  // Equal space for HeaderStats
+                    flex: 0,
                     child: HeaderStats(),
                   ),
                   Expanded(
-                    flex: 0,  // Equal space for ProjectsAndAppplicationButtons
+                    flex: 0,
                     child: ProjectsAndAppplicationButtons(),
                   ),
                   Expanded(
-                    flex: 2,  // Equal space for GetAllSastDastProjects
+                    flex: 2,
                     child: GetAllSastDastProjects(),
                   ),
                 ],
