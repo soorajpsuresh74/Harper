@@ -19,13 +19,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: EnvLoader().getName() ?? '',
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(EnvLoader().getName() ?? ''),
-        ),
-        // body: LoginScreen(),
-        body: const ProjectsAndAppplication(),
-      ),
+      home: const ProjectsAndAppplication(),
+      // body: LoginScreen(),
     );
   }
 }

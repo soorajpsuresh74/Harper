@@ -4,6 +4,7 @@ import 'package:harper/Widget/Dashboard/headerstat.dart';
 import 'package:harper/Widget/Dashboard/sidebar.dart';
 import 'package:harper/Widget/Dashboard/get_all_sast_dast_projects.dart';
 import 'package:harper/Widget/Dashboard/ProjectsAndAppplicationButtons.dart';
+import 'package:harper/Widget/Dashboard/userwidgets.dart';
 
 class ProjectsAndAppplication extends StatefulWidget {
   const ProjectsAndAppplication({super.key});
@@ -34,6 +35,10 @@ class _ProjectsAndAppplication extends State<ProjectsAndAppplication> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Expanded(
+                    flex: 0,
+                    child: UserWidgets(),
+                  ),
                   Expanded(
                     flex: 0,
                     child: HeaderStats(),
