@@ -39,6 +39,7 @@ class _ProjectsAndAppplication extends State<ProjectsAndAppplication> {
                     flex: 0,
                     child: UserWidgets(),
                   ),
+                  const SizedBox(height: 25),
                   Expanded(
                     flex: 0,
                     child: HeaderStats(),

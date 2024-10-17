@@ -26,7 +26,7 @@ class _SidebarState extends State<Sidebar> {
         width: _isHovered ? 250 : 60,
         duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
-          color: Colors.blueAccent.shade700,
+          color: const Color(0xffb74093),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
@@ -39,15 +39,8 @@ class _SidebarState extends State<Sidebar> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 20),
-            // buildMenuItem(
-            //   context,
-            //   icon: Icons.dashboard,
-            //   label: 'Home',
-            //   isHovered: _isHovered,
-            //   onClicked: () => widget.controller.selectIndex(0),
-            // ),
             buildMenuItem(context,
-                icon: Icons.settings,
+                icon: Icons.inbox,
                 label: 'Applications & Projects',
                 isHovered: _isHovered, onClicked: () {
               widget.controller.selectIndex(0);
@@ -57,7 +50,7 @@ class _SidebarState extends State<Sidebar> {
                       builder: (context) => const ProjectsAndAppplication()));
             }),
             buildMenuItem(context,
-                icon: Icons.dynamic_feed,
+                icon: Icons.scanner,
                 label: 'Scanned Projects',
                 isHovered: _isHovered, onClicked: () {
               widget.controller.selectIndex(2);

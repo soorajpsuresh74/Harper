@@ -6,9 +6,11 @@ class UserWidgets extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0), // Reduced padding
+      padding: const EdgeInsets.symmetric(
+          horizontal: 8.0, vertical: 4.0), // Reduced padding
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.start, // Align to the start for profile
+        mainAxisAlignment:
+            MainAxisAlignment.start, // Align to the start for profile
         children: [
           // User image with smaller size
           const CircleAvatar(
@@ -52,7 +54,8 @@ class UserWidgets extends StatelessWidget {
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor: Colors.white70,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6), // Reduced padding
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 6), // Reduced padding
                   side: const BorderSide(color: Colors.grey),
                   textStyle: const TextStyle(
                     fontSize: 14, // Smaller font size
@@ -73,7 +76,8 @@ class UserWidgets extends StatelessWidget {
                 onPressed: () {},
                 style: OutlinedButton.styleFrom(
                   backgroundColor: Colors.white70,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6), // Reduced padding
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 6), // Reduced padding
                   side: const BorderSide(color: Colors.grey),
                   textStyle: const TextStyle(
                     fontSize: 14, // Smaller font size
@@ -98,7 +102,8 @@ class UserWidgets extends StatelessWidget {
                 },
                 style: OutlinedButton.styleFrom(
                   backgroundColor: Colors.white70,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6), // Reduced padding
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 6), // Reduced padding
                   side: const BorderSide(color: Colors.grey),
                   textStyle: const TextStyle(
                     fontSize: 14, // Smaller font size
@@ -121,7 +126,8 @@ class UserWidgets extends StatelessWidget {
                 onPressed: () {},
                 style: OutlinedButton.styleFrom(
                   backgroundColor: Colors.white70,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6), // Reduced padding
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16, vertical: 6), // Reduced padding
                   side: const BorderSide(color: Colors.grey),
                   textStyle: const TextStyle(
                     fontSize: 14, // Smaller font size
@@ -138,28 +144,6 @@ class UserWidgets extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-
-          const SizedBox(width: 20), // Adjust spacing for better layout
-
-          // Dropdown button
-          DropdownButton<String>(
-            value: 'Action 1',
-            items: <String>['Action 1', 'Action 2', 'Action 3']
-                .map((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-            onChanged: (String? value) {},
-            icon: const Icon(Icons.arrow_downward),
-            elevation: 16,
-            style: const TextStyle(color: Colors.grey, fontSize: 14), // Smaller font size
-            underline: Container(
-              height: 1,
-              color: Colors.black,
-            ),
           ),
         ],
       ),
