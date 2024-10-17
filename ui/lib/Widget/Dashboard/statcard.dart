@@ -4,8 +4,15 @@ class StatCard extends StatelessWidget {
   final String title;
   final String count;
   final Color color;
+  final IconData icon;
 
-  const StatCard(this.title, this.count, {super.key, this.color = Colors.blue});
+  const StatCard(
+      this.title,
+      this.count, {
+        super.key,
+        this.color = Colors.blue,
+        this.icon = Icons.info,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -13,18 +20,37 @@ class StatCard extends StatelessWidget {
       color: color,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: Column(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              title,
-              style: const TextStyle(
-                  color: Colors.white, fontWeight: FontWeight.bold),
+            // Icon on the left
+            Icon(
+              icon,
+              size: 30,
+              color: Colors.white,
             ),
-            const SizedBox(height: 8),
-            Text(
-              count,
-              style: const TextStyle(color: Colors.white, fontSize: 24),
+            const SizedBox(width: 25), // Space between the icon and the text
+
+            // Column for title and count
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start, // Align content to start within the column
+              mainAxisAlignment: MainAxisAlignment.center, // Center vertically within the column
+              children: [
+                // Title
+                Text(
+                  title,
+                  style: const TextStyle(
+                      color: Colors.white, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 4), // Adds small space between title and count
+
+                // Count
+                Text(
+                  count,
+                  style: const TextStyle(color: Colors.white, fontSize: 24),
+                ),
+              ],
             ),
           ],
         ),

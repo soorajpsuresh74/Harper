@@ -9,10 +9,10 @@ class HeaderStats extends StatelessWidget {
     return const Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        Expanded(child: StatCard('Managed Projects', '11')),
-        Expanded(child: StatCard('High Risk Projects', '10', color: Colors.red)),
-        Expanded(child: StatCard('Medium Risk Projects', '1', color: Colors.orange)),
-        Expanded(child: StatCard('Low Risk Projects', 'None', color: Colors.green)),
+        Expanded(child: StatCard('Managed Projects', '11', icon: Icons.manage_accounts_rounded,)),
+        Expanded(child: StatCard('High Risk Projects', '10', color: Colors.red, icon: Icons.priority_high,)),
+        Expanded(child: StatCard('Medium Risk Projects', '1', color: Colors.orange, icon: Icons.indeterminate_check_box)),
+        Expanded(child: StatCard('Low Risk Projects', 'None', color: Colors.green, icon: Icons.low_priority,)),
       ],
     );
   }
