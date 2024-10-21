@@ -97,6 +97,9 @@ async def show_saved_projects():
     ]
     return data
 
+@app.post('/API/login')
+def login():
+
 
 if __name__ == '__main__':
     uvicorn.run(app, host=config.HOST, port=config.PORT)

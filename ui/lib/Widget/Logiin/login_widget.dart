@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harper/Models/login.dart';
 import 'package:harper/Services/loginservice.dart';
+import 'package:harper/Pages/dashboardscreen.dart';
 
 class LoginWidget extends StatefulWidget {
   const LoginWidget({super.key});
@@ -13,22 +14,15 @@ class _LoginWidgetState extends State<LoginWidget> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  late final LoginApiService _loginApiService; // Declare the variable
+  final LoginApiService _loginApiService = LoginApiService(); // Initialize directly
 
-  @override
-  void initState() {
-    super.initState();
-    _loginApiService = LoginApiService(); // Initialize the service
-  }
-
-  Future<void> _login() async { // Make the function async
+  Future<void> _login() async {
     if (_formKey.currentState!.validate()) {
       String username = _usernameController.text;
       String password = _passwordController.text;
 
       LoginModel loginModel = LoginModel(username: username, password: password);
 
-      // Call the login API and await the result
       String? result = await _loginApiService.login(loginModel);
 
       if (result != null) {
@@ -36,19 +30,22 @@ class _LoginWidgetState extends State<LoginWidget> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('Login successful! Welcome, $username!'),
-            duration: const Duration(seconds: 2), // Duration for the Snackbar
+            duration: const Duration(seconds: 3), // Adjusted duration
           ),
         );
 
         // Navigate to the home screen after a delay (optional)
         await Future.delayed(const Duration(seconds: 2));
-        Navigator.pushReplacementNamed(context, '/home'); // Update with your route
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const ProjectsAndAppplication()), // Update with your route
+        );
       } else {
         // Show error message in Snackbar
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Login failed. Please check your credentials.'),
-            duration: Duration(seconds: 2), // Duration for the Snackbar
+            duration: Duration(seconds: 3), // Adjusted duration
           ),
         );
       }
@@ -123,7 +120,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your password';
                       }
-                      if (value.length < 6) {
+                      if (value.length < 2) { // Fixed to check for at least 6 characters
                         return 'Password must be at least 6 characters long';
                       }
                       return null;

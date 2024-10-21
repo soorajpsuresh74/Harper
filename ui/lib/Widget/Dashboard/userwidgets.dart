@@ -87,7 +87,7 @@ class UserWidgets extends StatelessWidget {
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Icon(Icons.all_inbox, size: 14), // Smaller icon size
+                    Icon(Icons.new_releases, size: 14), // Smaller icon size
                     SizedBox(width: 8),
                     Text('Alert'),
                   ],
@@ -119,7 +119,7 @@ class UserWidgets extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(width: 8), // Reduced spacing
+              const SizedBox(width: 16), // Reduced spacing
 
               // 'All Types' button
               OutlinedButton(
@@ -137,9 +137,9 @@ class UserWidgets extends StatelessWidget {
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Icon(Icons.type_specimen, size: 14), // Smaller icon size
+                    Icon(Icons.create, size: 14), // Smaller icon size
                     SizedBox(width: 8),
-                    Text('JUMP'),
+                    Text('New'),
                   ],
                 ),
               ),
