@@ -35,7 +35,13 @@ class LoginApiService {
         body: jsonEncode(loginModel.toJson()),
       );
       if (response.statusCode == 200) {
-        return jsonDecode(response.body)['result'];
+        final responseBody = jsonDecode(response.body);
+        if (responseBody['message'] == 'success') {
+          return responseBody['username'];
+        } else {
+          Logger().error('Login failed: ${responseBody['message']}');
+          return null;
+        }
       } else {
         Logger().error('Login failed: ${response.reasonPhrase}');
         return null;
