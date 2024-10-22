@@ -2,5 +2,9 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/TRAILER/grammers/tree-sitter-go" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/TRAILER/grammers/tree-sitter-java" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/TRAILER/grammers/tree-sitter-javascript" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/TRAILER/grammers/tree-sitter-python" vcs="Git" />
   </component>
 </project>
