@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harper/Models/get_all_sast_dast_projects_model.dart';
 import 'package:harper/Services/get_all_sast_dast_projects_service.dart';
-import 'all_project.dart'; // Use this model for AllProject
+import 'package:harper/Pages/projectdetails.dart';
 
 class GetAllSastDastProjects extends StatefulWidget {
   const GetAllSastDastProjects({super.key});
@@ -23,7 +23,7 @@ class _GetAllSastDastProjectsState extends State<GetAllSastDastProjects> {
   Future<void> _fetchProjects() async {
     try {
       final projects =
-      await GetAllSastDastProjectsServive().fetchSavedProjects();
+          await GetAllSastDastProjectsServive().fetchSavedProjects();
       setState(() {
         _projects = projects;
         _isLoading = false;
@@ -41,14 +41,10 @@ class _GetAllSastDastProjectsState extends State<GetAllSastDastProjects> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _isLoading
-          ? const Center(
-        child: CircularProgressIndicator(),
-      )
+          ? const Center(child: CircularProgressIndicator())
           : _projects.isEmpty
-          ? const Center(
-        child: Text('No projects found'),
-      )
-          : AllProjectTableScreen(projects: _projects),
+              ? const Center(child: Text('No projects found'))
+              : AllProjectTableScreen(projects: _projects),
     );
   }
 }
@@ -69,9 +65,7 @@ class AllProjectTableScreen extends StatelessWidget {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minWidth: constraints.maxWidth,
-                ),
+                constraints: BoxConstraints(minWidth: constraints.maxWidth),
                 child: DataTable(
                   headingTextStyle: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -93,12 +87,14 @@ class AllProjectTableScreen extends StatelessWidget {
                   ],
                   rows: projects.map((project) {
                     return _buildDataRow(
+                      context,
                       project.projectName ?? 'Unnamed Project',
                       project.config ?? 'Unknown Source',
                       project.team ?? 'Unknown Time',
                       project.preset.isNotEmpty ? 'Has Preset' : 'No Preset',
                       project.status,
-                      project.random, // If random is available
+                      project.random,
+                      project,
                     );
                   }).toList(),
                 ),
@@ -110,13 +106,40 @@ class AllProjectTableScreen extends StatelessWidget {
     );
   }
 
-  DataRow _buildDataRow(String name, String source, String lastScan,
-      String tags, String status, String? random) {
-    final randomValue = (random != null && random.isNotEmpty) ? random : _generateRandomValue();
+  DataRow _buildDataRow(
+    BuildContext context,
+    String name,
+    String source,
+    String lastScan,
+    String tags,
+    String status,
+    String? random,
+    GetAllSastDastProjectsModel project,
+  ) {
+    final randomValue =
+        (random != null && random.isNotEmpty) ? random : _generateRandomValue();
 
     return DataRow(
       cells: [
-        DataCell(Text(name)),
+        DataCell(
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProjectDetailScreen(project: project),
+                ),
+              );
+            },
+            child: Text(
+              name,
+              style: const TextStyle(
+                color: Colors.blue,
+                decoration: TextDecoration.none,
+              ),
+            ),
+          ),
+        ),
         DataCell(Text(source)),
         DataCell(Text(lastScan)),
         DataCell(Text(tags)),
@@ -140,17 +163,15 @@ class AllProjectTableScreen extends StatelessWidget {
             ),
           ),
         ),
-        DataCell(_buildActions(randomValue)),
+        DataCell(
+          Text(randomValue),
+        ),
       ],
     );
   }
 
   String _generateRandomValue() {
     return 'RandomValue-${DateTime.now().millisecondsSinceEpoch}';
-  }
-
-  Widget _buildActions(String randomValue) {
-    return Text(randomValue);
   }
 
   Color _getStatusColor(String status) {
