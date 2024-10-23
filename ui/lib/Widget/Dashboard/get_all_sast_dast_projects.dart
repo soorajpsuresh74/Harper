@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Import this for clipboard functionality
 import 'package:harper/Models/get_all_sast_dast_projects_model.dart';
 import 'package:harper/Services/get_all_sast_dast_projects_service.dart';
 import 'package:harper/Pages/projectdetails.dart';
@@ -23,7 +24,7 @@ class _GetAllSastDastProjectsState extends State<GetAllSastDastProjects> {
   Future<void> _fetchProjects() async {
     try {
       final projects =
-      await  GetAllSastDastProjectsServive().fetchSavedProjects(); // Fixed the typo
+      await GetAllSastDastProjectsServive().fetchSavedProjects(); // Fixed the typo
       setState(() {
         _projects = projects;
         _isLoading = false;
@@ -125,7 +126,32 @@ class AllProjectTableScreen extends StatelessWidget {
 
     return DataRow(
       cells: [
-        DataCell(Text(id)), // Display the project ID
+        DataCell(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text(
+                  id.length > 8 ? id.substring(0, 8) : id, // Display first 4 characters
+                  style: const TextStyle(
+                    fontSize: 12, // Small font size
+                    color: Colors.blue,
+                    // decoration: TextDecoration.underline, // Underlined
+                  ),
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.copy),
+                onPressed: () {
+                  _copyToClipboard(id);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('ID copied to clipboard!')),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
         DataCell(
           InkWell(
             onTap: () {
@@ -137,10 +163,10 @@ class AllProjectTableScreen extends StatelessWidget {
               );
             },
             child: Text(
-              name,
+              name, // Remove underline from name
               style: const TextStyle(
-                color: Colors.blue,
-                decoration: TextDecoration.underline,
+                color: Colors.brown,
+                // decoration: TextDecoration.underline,
               ),
             ),
           ),
@@ -171,6 +197,10 @@ class AllProjectTableScreen extends StatelessWidget {
         DataCell(Text(randomValue)),
       ],
     );
+  }
+
+  void _copyToClipboard(String text) {
+    Clipboard.setData(ClipboardData(text: text));
   }
 
   String _generateRandomValue() {

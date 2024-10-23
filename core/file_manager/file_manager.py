@@ -51,6 +51,51 @@ class FileManager:
         config.log_info(f"No project found with ID: {self.id} in both databases.")
         return None
 
+    def files_from_path(self):
+        path = self.path_from_id()
+
+        if path and os.path.exists(path):
+            try:
+                files = [os.listdir(path)]
+                config.log_info(f"Files found in {path}: {files}")
+                return files
+            except Exception as e:
+                config.log_info(f"Error reading files from path {path}: {e}")
+                return []
+        else:
+            config.log_info("Invalid path or project not found.")
+            return []
+
+    def sort_files(self):
+        files = self.files_from_path()
+        python = []
+        go = []
+        java = []
+        js = []
+
+        for file in files:
+            if isinstance(file, str):
+                if file.endswith('.py'):
+                    python.append(file)
+                elif file.endswith('.go'):
+                    go.append(file)
+                elif file.endswith('.java'):
+                    java.append(file)
+                elif file.endswith('.js'):
+                    js.append(file)
+
+        config.log_info(f"Sorted Python files: {python}")
+        config.log_info(f"Sorted Go files: {go}")
+        config.log_info(f"Sorted Java files: {java}")
+        config.log_info(f"Sorted JavaScript files: {js}")
+
+        return {
+            'python': python,
+            'go': go,
+            'java': java,
+            'js': js,
+        }
+
 
 if __name__ == "__main__":
     file_manager = FileManager(id='e9f874f6-318e-4036-bb6f-c3050988f942')
