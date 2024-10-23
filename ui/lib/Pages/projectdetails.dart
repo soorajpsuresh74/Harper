@@ -1,4 +1,3 @@
-// Import necessary packages
 import 'package:flutter/material.dart';
 import 'package:harper/Models/get_all_sast_dast_projects_model.dart';
 import 'package:harper/Widget/Dashboard/sidebar.dart';
@@ -24,6 +23,13 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen>
     super.initState();
     _controller = SidebarXController(selectedIndex: 0);
     _tabController = TabController(length: 4, vsync: this); // 4 tabs
+  }
+
+  void _onScanButtonPressed() {
+    // Implement your scan logic here
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text("Scan button pressed!")),
+    );
   }
 
   @override
@@ -53,6 +59,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen>
                           bottom: BorderSide(color: Colors.blue, width: 0),
                         ),
                       ),
+                      isScrollable: false, // Set to false for equal-sized tabs
                       tabs: const [
                         Tab(text: 'Overview'),
                         Tab(text: 'Scan History'),
@@ -60,7 +67,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen>
                         Tab(text: 'Settings'),
                       ],
                     ),
-                    const SizedBox(height: 10), // Spacing below TabBar
+                    const SizedBox(height: 10), // Spacing below the button
                   ],
                 ),
               ),
@@ -129,17 +136,17 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen>
 
   // Scan History Tab content
   Widget _buildScanHistoryTab() {
-    return Center(child: Text("Scan History details will go here."));
+    return const Center(child: Text("Scan History details will go here."));
   }
 
   // Compliance Tab content
   Widget _buildComplianceTab() {
-    return Center(child: Text("Compliance information will go here."));
+    return const Center(child: Text("Compliance information will go here."));
   }
 
   // Settings Tab content
   Widget _buildSettingsTab() {
-    return Center(child: Text("Project settings and configurations go here."));
+    return const Center(child: Text("Project settings and configurations go here."));
   }
 
   // Reusable Project Details section
@@ -175,19 +182,44 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen>
                     'Random Value: ${widget.project.random ?? 'No Random Value'}'),
               ],
             ),
-            Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-              child: const Text(
-                'High Risk',
-                style: TextStyle(color: Colors.white, fontSize: 18),
-              ),
+            // High Risk Label
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                // Scan Button positioned above the High Risk label
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ElevatedButton(
+                    onPressed: _onScanButtonPressed,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue, // Match High Risk color
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.0), // Match shape
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 24.0), // Adjust padding
+                      elevation: 0, // Remove shadow
+                      textStyle: const TextStyle(color: Colors.white), // White text color
+                    ),
+                    child: const Text('Scan', style:  TextStyle(fontSize: 18, color: Colors.white,)),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Container(
+                  padding: const EdgeInsets.all(8.0),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(4.0),
+                  ),
+                  child: const Text(
+                    'High Risk',
+                    style: TextStyle(color: Colors.white, fontSize: 18),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
+        const SizedBox(height: 10), // Spacing below the High Risk label
         const SizedBox(height: 20),
         const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
