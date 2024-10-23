@@ -18,6 +18,8 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen>
   late final SidebarXController _controller;
   late TabController _tabController;
 
+  bool hasScanned = false; // Flag to check if scan has been performed
+
   @override
   void initState() {
     super.initState();
@@ -27,6 +29,9 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen>
 
   void _onScanButtonPressed() {
     // Implement your scan logic here
+    setState(() {
+      hasScanned = true; // Update the flag after the scan
+    });
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text("Scan button pressed!")),
     );
@@ -110,12 +115,16 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen>
           Row(
             children: [
               Expanded(
-                  child: _buildVulnerabilityCard('Total Vulnerabilities', '133',
-                      {'High': 48, 'Medium': 20, 'Low': 65})),
+                  child: _buildVulnerabilityCard(
+                      'Total Vulnerabilities',
+                      hasScanned ? '133' : 'Scan first',
+                      hasScanned ? {'High': 48, 'Medium': 20, 'Low': 65} : {})),
               const SizedBox(width: 16),
               Expanded(
-                  child: _buildVulnerabilityCard('Vulnerabilities by Scan Type',
-                      'SAST', {'SAST': 133, 'KICS': 0, 'SCA': 0})),
+                  child: _buildVulnerabilityCard(
+                      'Vulnerabilities by Scan Type',
+                      hasScanned ? 'SAST' : 'Scan first',
+                      hasScanned ? {'SAST': 133, 'KICS': 0, 'SCA': 0} : {})),
             ],
           ),
           const SizedBox(height: 20),
@@ -125,8 +134,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen>
             children: [
               Expanded(child: _buildChartPlaceholder('Aging Summary')),
               const SizedBox(width: 16),
-              Expanded(
-                  child: _buildChartPlaceholder('Results by Technologies')),
+              Expanded(child: _buildChartPlaceholder('Results by Technologies')),
             ],
           ),
         ],
@@ -200,7 +208,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen>
                       elevation: 0, // Remove shadow
                       textStyle: const TextStyle(color: Colors.white), // White text color
                     ),
-                    child: const Text('Scan', style:  TextStyle(fontSize: 18, color: Colors.white,)),
+                    child: const Text('Scan', style: TextStyle(fontSize: 18, color: Colors.white,)),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -288,9 +296,7 @@ class _ProjectDetailScreenState extends State<ProjectDetailScreen>
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
             ),
             const Spacer(),
-            const Center(
-                child: Text('Chart goes here',
-                    style: TextStyle(color: Colors.grey))),
+            const Center(child: Text("Chart Placeholder")),
           ],
         ),
       ),
