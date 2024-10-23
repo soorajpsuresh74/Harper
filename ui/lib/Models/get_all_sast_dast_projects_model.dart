@@ -1,5 +1,5 @@
 class GetAllSastDastProjectsModel {
-  final int id;
+  final String id;
   final String projectName;
   final String config;
   final String team;

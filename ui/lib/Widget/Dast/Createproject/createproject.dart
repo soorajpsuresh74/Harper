@@ -128,16 +128,13 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget>
   }
 
   Future<void> _pickLocalPath() async {
-    FilePickerResult? result = await FilePicker.platform.pickFiles(
-      allowMultiple: false,
-      type: FileType.custom,
-      allowedExtensions: ['*'], // Allow all file types
+    String? selectedPath = await FilePicker.platform.getDirectoryPath(
       dialogTitle: 'Select Local Path',
     );
 
-    if (result != null && result.files.isNotEmpty) {
+    if (selectedPath != null) {
       setState(() {
-        _localPath = result.files.first.path; // Use safe access
+        _localPath = selectedPath;
       });
     }
   }
@@ -391,7 +388,7 @@ class _CreateProjectWidgetState extends State<CreateProjectWidget>
           ),
           const SizedBox(height: 20),
           MultiSelectChip(
-            options: [
+            options: const [
               'Sunday',
               'Monday',
               'Tuesday',

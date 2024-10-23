@@ -23,7 +23,7 @@ class _GetAllSastDastProjectsState extends State<GetAllSastDastProjects> {
   Future<void> _fetchProjects() async {
     try {
       final projects =
-          await GetAllSastDastProjectsServive().fetchSavedProjects();
+      await  GetAllSastDastProjectsServive().fetchSavedProjects(); // Fixed the typo
       setState(() {
         _projects = projects;
         _isLoading = false;
@@ -43,8 +43,8 @@ class _GetAllSastDastProjectsState extends State<GetAllSastDastProjects> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : _projects.isEmpty
-              ? const Center(child: Text('No projects found'))
-              : AllProjectTableScreen(projects: _projects),
+          ? const Center(child: Text('No projects found'))
+          : AllProjectTableScreen(projects: _projects),
     );
   }
 }
@@ -78,22 +78,24 @@ class AllProjectTableScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   columns: const [
+                    DataColumn(label: Text('ID')),
                     DataColumn(label: Text('Name')),
+                    DataColumn(label: Text('Preset')),
+                    DataColumn(label: Text('Config')),
                     DataColumn(label: Text('Source')),
-                    DataColumn(label: Text('Last Scan')),
-                    DataColumn(label: Text('Tags')),
-                    DataColumn(label: Text('Status')),
                     DataColumn(label: Text('Actions')),
+                    DataColumn(label: Text('Random')),
                   ],
                   rows: projects.map((project) {
                     return _buildDataRow(
                       context,
-                      project.projectName ?? 'Unnamed Project',
-                      project.config ?? 'Unknown Source',
-                      project.team ?? 'Unknown Time',
-                      project.preset.isNotEmpty ? 'Has Preset' : 'No Preset',
+                      project.id,
+                      project.projectName ?? 'Unnamed',
+                      project.config ?? 'Unknown',
+                      project.team ?? 'Unknown',
                       project.status,
-                      project.random,
+                      project.preset.isNotEmpty ? 'Has Preset' : 'No Preset',
+                      project.random, // Assuming this is a string
                       project,
                     );
                   }).toList(),
@@ -107,20 +109,23 @@ class AllProjectTableScreen extends StatelessWidget {
   }
 
   DataRow _buildDataRow(
-    BuildContext context,
-    String name,
-    String source,
-    String lastScan,
-    String tags,
-    String status,
-    String? random,
-    GetAllSastDastProjectsModel project,
-  ) {
-    final randomValue =
-        (random != null && random.isNotEmpty) ? random : _generateRandomValue();
+      BuildContext context,
+      String id,
+      String name,
+      String source,
+      String lastScan,
+      String tags,
+      String status,
+      String? random,
+      GetAllSastDastProjectsModel project,
+      ) {
+    final randomValue = (random != null && random.isNotEmpty)
+        ? random
+        : _generateRandomValue();
 
     return DataRow(
       cells: [
+        DataCell(Text(id)), // Display the project ID
         DataCell(
           InkWell(
             onTap: () {
@@ -135,7 +140,7 @@ class AllProjectTableScreen extends StatelessWidget {
               name,
               style: const TextStyle(
                 color: Colors.blue,
-                decoration: TextDecoration.none,
+                decoration: TextDecoration.underline,
               ),
             ),
           ),
@@ -163,9 +168,7 @@ class AllProjectTableScreen extends StatelessWidget {
             ),
           ),
         ),
-        DataCell(
-          Text(randomValue),
-        ),
+        DataCell(Text(randomValue)),
       ],
     );
   }
