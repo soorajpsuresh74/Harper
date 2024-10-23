@@ -4,7 +4,9 @@ from fastapi.responses import JSONResponse
 import config
 
 from Models.dast.createprojectdast import CreateProjectModelDAST
+from Models.login.loginmodel import DoLoginModel
 from Models.sast.createprojectsast import CreateProjectModelSAST
+from database.Manager_Login.validatelogin import ValidateLogin
 from database.Manager_Projects.ProjectManager import ProjectManagerDB
 from database.Manager_Projects.dast.dastprojectsaver import DASTProjectSaver
 from database.Manager_Projects.dast.dastprojectssaved import DASTProjectsSaved
@@ -96,6 +98,18 @@ async def show_saved_projects():
 
     ]
     return data
+
+
+@app.post('/API/login')
+def login(credentials: DoLoginModel):
+
+    creds = credentials.dict()
+    validate = ValidateLogin(creds)
+    validate.load_sample_data()
+    state, username = validate.validate()
+    if state:
+        return {"message": "success", "username": username}
+    return {"message": "failure", "username": username}
 
 
 if __name__ == '__main__':

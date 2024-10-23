@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: EnvLoader().getName() ?? '',
       home: const ProjectsAndAppplication(),
+      // home: const LoginScreen(),
       // body: LoginScreen(),
     );
   }

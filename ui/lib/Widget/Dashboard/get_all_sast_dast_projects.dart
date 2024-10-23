@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // Import this for clipboard functionality
 import 'package:harper/Models/get_all_sast_dast_projects_model.dart';
 import 'package:harper/Services/get_all_sast_dast_projects_service.dart';
-import 'all_project.dart'; // Use this model for AllProject
+import 'package:harper/Pages/projectdetails.dart';
 
 class GetAllSastDastProjects extends StatefulWidget {
   const GetAllSastDastProjects({super.key});
@@ -23,7 +24,7 @@ class _GetAllSastDastProjectsState extends State<GetAllSastDastProjects> {
   Future<void> _fetchProjects() async {
     try {
       final projects =
-      await GetAllSastDastProjectsServive().fetchSavedProjects();
+      await GetAllSastDastProjectsServive().fetchSavedProjects(); // Fixed the typo
       setState(() {
         _projects = projects;
         _isLoading = false;
@@ -41,13 +42,9 @@ class _GetAllSastDastProjectsState extends State<GetAllSastDastProjects> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _isLoading
-          ? const Center(
-        child: CircularProgressIndicator(),
-      )
+          ? const Center(child: CircularProgressIndicator())
           : _projects.isEmpty
-          ? const Center(
-        child: Text('No projects found'),
-      )
+          ? const Center(child: Text('No projects found'))
           : AllProjectTableScreen(projects: _projects),
     );
   }
@@ -69,9 +66,7 @@ class AllProjectTableScreen extends StatelessWidget {
             child: SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minWidth: constraints.maxWidth,
-                ),
+                constraints: BoxConstraints(minWidth: constraints.maxWidth),
                 child: DataTable(
                   headingTextStyle: const TextStyle(
                     fontWeight: FontWeight.bold,
@@ -84,21 +79,25 @@ class AllProjectTableScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(8),
                   ),
                   columns: const [
+                    DataColumn(label: Text('ID')),
                     DataColumn(label: Text('Name')),
+                    DataColumn(label: Text('Preset')),
+                    DataColumn(label: Text('Config')),
                     DataColumn(label: Text('Source')),
-                    DataColumn(label: Text('Last Scan')),
-                    DataColumn(label: Text('Tags')),
-                    DataColumn(label: Text('Status')),
                     DataColumn(label: Text('Actions')),
+                    DataColumn(label: Text('Random')),
                   ],
                   rows: projects.map((project) {
                     return _buildDataRow(
-                      project.projectName ?? 'Unnamed Project',
-                      project.config ?? 'Unknown Source',
-                      project.team ?? 'Unknown Time',
-                      project.preset.isNotEmpty ? 'Has Preset' : 'No Preset',
+                      context,
+                      project.id,
+                      project.projectName ?? 'Unnamed',
+                      project.config ?? 'Unknown',
+                      project.team ?? 'Unknown',
                       project.status,
-                      project.random, // If random is available
+                      project.preset.isNotEmpty ? 'Has Preset' : 'No Preset',
+                      project.random, // Assuming this is a string
+                      project,
                     );
                   }).toList(),
                 ),
@@ -110,13 +109,68 @@ class AllProjectTableScreen extends StatelessWidget {
     );
   }
 
-  DataRow _buildDataRow(String name, String source, String lastScan,
-      String tags, String status, String? random) {
-    final randomValue = (random != null && random.isNotEmpty) ? random : _generateRandomValue();
+  DataRow _buildDataRow(
+      BuildContext context,
+      String id,
+      String name,
+      String source,
+      String lastScan,
+      String tags,
+      String status,
+      String? random,
+      GetAllSastDastProjectsModel project,
+      ) {
+    final randomValue = (random != null && random.isNotEmpty)
+        ? random
+        : _generateRandomValue();
 
     return DataRow(
       cells: [
-        DataCell(Text(name)),
+        DataCell(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Flexible(
+                child: Text(
+                  id.length > 8 ? id.substring(0, 8) : id, // Display first 4 characters
+                  style: const TextStyle(
+                    fontSize: 12, // Small font size
+                    color: Colors.blue,
+                    // decoration: TextDecoration.underline, // Underlined
+                  ),
+                ),
+              ),
+              IconButton(
+                icon: const Icon(Icons.copy),
+                onPressed: () {
+                  _copyToClipboard(id);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('ID copied to clipboard!')),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+        DataCell(
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProjectDetailScreen(project: project),
+                ),
+              );
+            },
+            child: Text(
+              name, // Remove underline from name
+              style: const TextStyle(
+                color: Colors.brown,
+                // decoration: TextDecoration.underline,
+              ),
+            ),
+          ),
+        ),
         DataCell(Text(source)),
         DataCell(Text(lastScan)),
         DataCell(Text(tags)),
@@ -140,17 +194,17 @@ class AllProjectTableScreen extends StatelessWidget {
             ),
           ),
         ),
-        DataCell(_buildActions(randomValue)),
+        DataCell(Text(randomValue)),
       ],
     );
   }
 
-  String _generateRandomValue() {
-    return 'RandomValue-${DateTime.now().millisecondsSinceEpoch}';
+  void _copyToClipboard(String text) {
+    Clipboard.setData(ClipboardData(text: text));
   }
 
-  Widget _buildActions(String randomValue) {
-    return Text(randomValue);
+  String _generateRandomValue() {
+    return 'RandomValue-${DateTime.now().millisecondsSinceEpoch}';
   }
 
   Color _getStatusColor(String status) {

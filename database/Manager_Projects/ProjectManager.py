@@ -33,12 +33,12 @@ class ProjectManagerDB:
         formatted_projects = []
         for project in projects:
             project_data = {
-                'id': project[0],
-                'projectName': project[1],
-                'config': project[2],
-                'team': project[3],
-                'preset': project[4],
-                'status': project[5],
+                'id': project[1],
+                'projectName': project[2],
+                'config': project[3],
+                'team': project[4],
+                'preset': project[5],
+                'status': project[6],
             }
             formatted_projects.append(project_data)
 
