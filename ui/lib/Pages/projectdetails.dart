@@ -1,3 +1,4 @@
+// Import necessary packages
 import 'package:flutter/material.dart';
 import 'package:harper/Models/get_all_sast_dast_projects_model.dart';
 import 'package:harper/Widget/Dashboard/sidebar.dart';
@@ -13,170 +14,228 @@ class ProjectDetailScreen extends StatefulWidget {
   State<ProjectDetailScreen> createState() => _ProjectDetailScreenState();
 }
 
-class _ProjectDetailScreenState extends State<ProjectDetailScreen> {
+class _ProjectDetailScreenState extends State<ProjectDetailScreen>
+    with SingleTickerProviderStateMixin {
   late final SidebarXController _controller;
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     _controller = SidebarXController(selectedIndex: 0);
+    _tabController = TabController(length: 4, vsync: this); // 4 tabs
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Row(
-        children: [
-          Sidebar(controller: _controller),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const UserWidgets(),
-                  const SizedBox(height: 25),
+      body: Row(children: [
+        Sidebar(controller: _controller),
+        Expanded(
+          child: Column(
+            children: [
+              // User Widget at the top
+              const UserWidgets(),
+              const SizedBox(height: 10),
 
-                  // Split the details into two sections
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Left section
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Project Name: ${widget.project.projectName ?? 'Unnamed Project'}',
-                              style: const TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            const SizedBox(height: 5),
-                            const Text('Branch: master',
-                                style: TextStyle(color: Colors.grey)),
-                            const SizedBox(height: 10),
-                            Text('Source: ${widget.project.config ?? 'Unknown Source'}'),
-                            const SizedBox(height: 10),
-                            Text('Last Scan: ${widget.project.team ?? 'Unknown Time'}'),
-                            const SizedBox(height: 10),
-                            Text('Tags: ${widget.project.preset.isNotEmpty ? 'Has Preset' : 'No Preset'}'),
-                            const SizedBox(height: 10),
-                            Text('Status: ${widget.project.status}'),
-                          ],
+              // Tabs for different sections with 20 padding
+              Padding(
+                padding: const EdgeInsets.only(top: 20.0),
+                child: Column(
+                  children: [
+                    TabBar(
+                      controller: _tabController,
+                      labelColor: Colors.black,
+                      indicatorColor: Colors.blue,
+                      indicator: const BoxDecoration(
+                        color: Colors.transparent,
+                        border: Border(
+                          bottom: BorderSide(color: Colors.blue, width: 0),
                         ),
                       ),
-
-                      const SizedBox(width: 16), // Space between two sections
-
-                      // Right section
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(4.0),
-                              ),
-                              child: const Text(
-                                'High Risk',
-                                style: TextStyle(
-                                    color: Colors.white, fontSize: 18),
-                              ),
-                            ),
-                            const SizedBox(height: 10),
-                            Text('Random Value: ${widget.project.random ?? 'No Random Value'}'),
-                            const SizedBox(height: 10),
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Scan: 7c5fd1f1-5466-436e-5bcb-8025f7a13b11',
-                                  style: TextStyle(color: Colors.grey),
-                                ),
-                                Text('Last Scan: 3 Hours ago',
-                                    style: TextStyle(color: Colors.grey)),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // Vulnerability cards
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildVulnerabilityCard('Total Vulnerabilities', '133',
-                          {'High': 48, 'Medium': 20, 'Low': 65}),
-                      _buildVulnerabilityCard('Vulnerabilities by Scan Type',
-                          'SAST', {'SAST': 133, 'KICS': 0, 'SCA': 0}),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-
-                  // Severity over time chart
-                  _buildChartPlaceholder('Severity Over Time'),
-
-                  const SizedBox(height: 20),
-
-                  // Aging Summary and Technology Results Row
-                  Row(
-                    children: [
-                      Expanded(child: _buildChartPlaceholder('Aging Summary')),
-                      const SizedBox(width: 16),
-                      Expanded(child: _buildChartPlaceholder('Results by Technologies')),
-                    ],
-                  ),
-                ],
+                      tabs: const [
+                        Tab(text: 'Overview'),
+                        Tab(text: 'Scan History'),
+                        Tab(text: 'Compliance'),
+                        Tab(text: 'Settings'),
+                      ],
+                    ),
+                    const SizedBox(height: 10), // Spacing below TabBar
+                  ],
+                ),
               ),
-            ),
+
+              // Tab views for each section
+              Expanded(
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    // Overview Tab
+                    _buildOverviewTab(),
+
+                    // Scan History Tab
+                    _buildScanHistoryTab(),
+
+                    // Compliance Tab
+                    _buildComplianceTab(),
+
+                    // Settings Tab
+                    _buildSettingsTab(),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        )
+      ]),
+    );
+  }
+
+  // Overview Tab content
+  Widget _buildOverviewTab() {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildProjectDetailsSection(),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(
+                  child: _buildVulnerabilityCard('Total Vulnerabilities', '133',
+                      {'High': 48, 'Medium': 20, 'Low': 65})),
+              const SizedBox(width: 16),
+              Expanded(
+                  child: _buildVulnerabilityCard('Vulnerabilities by Scan Type',
+                      'SAST', {'SAST': 133, 'KICS': 0, 'SCA': 0})),
+            ],
+          ),
+          const SizedBox(height: 20),
+          _buildChartPlaceholder('Severity Over Time'),
+          const SizedBox(height: 20),
+          Row(
+            children: [
+              Expanded(child: _buildChartPlaceholder('Aging Summary')),
+              const SizedBox(width: 16),
+              Expanded(
+                  child: _buildChartPlaceholder('Results by Technologies')),
+            ],
           ),
         ],
       ),
     );
   }
 
+  // Scan History Tab content
+  Widget _buildScanHistoryTab() {
+    return Center(child: Text("Scan History details will go here."));
+  }
+
+  // Compliance Tab content
+  Widget _buildComplianceTab() {
+    return Center(child: Text("Compliance information will go here."));
+  }
+
+  // Settings Tab content
+  Widget _buildSettingsTab() {
+    return Center(child: Text("Project settings and configurations go here."));
+  }
+
+  // Reusable Project Details section
+  Widget _buildProjectDetailsSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Project Name: ${widget.project.projectName ?? 'Unnamed Project'}',
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 5),
+                const Text('Branch: master',
+                    style: TextStyle(color: Colors.grey)),
+                const SizedBox(height: 10),
+                Text('Source: ${widget.project.config ?? 'Unknown Source'}'),
+                const SizedBox(height: 10),
+                Text('Last Scan: ${widget.project.team ?? 'Unknown Time'}'),
+                const SizedBox(height: 10),
+                Text(
+                    'Tags: ${widget.project.preset.isNotEmpty ? 'Has Preset' : 'No Preset'}'),
+                const SizedBox(height: 10),
+                Text('Status: ${widget.project.status}'),
+                const SizedBox(height: 10),
+                Text(
+                    'Random Value: ${widget.project.random ?? 'No Random Value'}'),
+              ],
+            ),
+            Container(
+              padding: const EdgeInsets.all(8.0),
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(4.0),
+              ),
+              child: const Text(
+                'High Risk',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Scan: 7c5fd1f1-5466-436e-5bcb-8025f7a13b11',
+              style: TextStyle(color: Colors.grey),
+            ),
+            Text('Last Scan: 3 Hours ago',
+                style: TextStyle(color: Colors.grey)),
+          ],
+        ),
+      ],
+    );
+  }
+
   // A reusable card widget for vulnerability details
   Widget _buildVulnerabilityCard(
       String title, String mainValue, Map<String, int> breakdown) {
-    return Expanded(
-      child: Card(
-        elevation: 4,
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style:
-                const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                mainValue,
-                style:
-                const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              for (var entry in breakdown.entries)
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(entry.key),
-                      Text(entry.value.toString()),
-                    ],
-                  ),
+    return Card(
+      elevation: 4,
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              mainValue,
+              style: const TextStyle(fontSize: 36, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            for (var entry in breakdown.entries)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(entry.key),
+                    Text(entry.value.toString()),
+                  ],
                 ),
-            ],
-          ),
+              ),
+          ],
         ),
       ),
     );

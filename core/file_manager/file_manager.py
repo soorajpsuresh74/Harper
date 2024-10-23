@@ -27,6 +27,7 @@ class Projects(Base):
 class FileManager:
     def __init__(self, id):
         self.id = id
+        self.sorted_files = self.sort_files()
 
     def path_from_id(self):
         for db_url in DatabaseUrl.DATABASE_URLS:
@@ -97,11 +98,13 @@ class FileManager:
         }
 
 
-if __name__ == "__main__":
-    file_manager = FileManager(id='e9f874f6-318e-4036-bb6f-c3050988f942')
-    project_path = file_manager.path_from_id()
-
-    if project_path:
-        config.log_info(f"Project path: {project_path}")
-    else:
-        config.log_info("Project not found in either database.")
+# if __name__ == "__main__":
+#     file_manager = FileManager(id='e9f874f6-318e-4036-bb6f-c3050988f942')
+#     project_path = file_manager.path_from_id()
+#
+#     print(file_manager.sorted_files)
+#
+#     if project_path:
+#         config.log_info(f"Project path: {project_path}")
+#     else:
+#         config.log_info("Project not found in either database.")
