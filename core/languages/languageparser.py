@@ -1,4 +1,3 @@
-import tree_sitter
 from tree_sitter import Language, Parser, Tree
 
 import tree_sitter_python as ts_python
@@ -29,8 +28,3 @@ class LanguageParser:
             return self.parsers[language].parse(code.encode('utf-8'))
         else:
             raise ValueError(f"Unsupported language: {language}")
-
-
-# parser = LanguageParser()
-# code = "def hello():\n    print('Hello, world!')"
-# parser.parse_code('python', code)
