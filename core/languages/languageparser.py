@@ -1,5 +1,5 @@
 import tree_sitter
-from tree_sitter import Language, Parser
+from tree_sitter import Language, Parser, Tree
 
 import tree_sitter_python as ts_python
 import tree_sitter_go as ts_go
@@ -16,28 +16,21 @@ class LanguageParser:
         self.JS_LANGUAGE = Language(ts_js.language())
         self.RUST_LANGUAGE = Language(ts_r.language())
 
-        self.PYTHON_PARSER = Parser(self.PY_LANGUAGE)
-        self.GO_PARSER = Parser(self.GO_LANGUAGE)
-        self.JAVA_PARSER = Parser(self.JAVA_LANGUAGE)
-        self.JS_PARSER = Parser(self.JS_LANGUAGE)
-        self.RUST_PARSER = Parser(self.RUST_LANGUAGE)
+        self.parsers = {
+            'python': Parser(self.PY_LANGUAGE),
+            'go': Parser(self.GO_LANGUAGE),
+            'java': Parser(self.JAVA_LANGUAGE),
+            'javascript': Parser(self.JS_LANGUAGE),
+            'rust': Parser(self.RUST_LANGUAGE)
+        }
 
-    def python_paser(self, code) -> 'tree_sitter.Tree':
-        tree = self.PYTHON_PARSER.parse(code.encode('utf-8'))
-        return tree
+    def parse_code(self, language: str, code: str) -> Tree:
+        if language in self.parsers:
+            return self.parsers[language].parse(code.encode('utf-8'))
+        else:
+            raise ValueError(f"Unsupported language: {language}")
 
-    def go_paser(self, code) -> 'tree_sitter.Tree':
-        tree = self.GO_PARSER.parse(code.encode('utf-8'))
-        return tree
 
-    def java_paser(self, code) -> 'tree_sitter.Tree':
-        tree = self.JAVA_PARSER.parse(code.encode('utf-8'))
-        return tree
-
-    def js_paser(self, code) -> 'tree_sitter.Tree':
-        tree = self.JS_PARSER.parse(code.encode('utf-8'))
-        return tree
-
-    def rust_paser(self, code) -> 'tree_sitter.Tree':
-        tree = self.RUST_PARSER.parse(code.encode('utf-8'))
-        return tree
+# parser = LanguageParser()
+# code = "def hello():\n    print('Hello, world!')"
+# parser.parse_code('python', code)
